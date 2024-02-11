@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Add New Restaurant</h2>
+<div mat-dialog-content>
+  <form [formGroup]="addRestaurantForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" required />
+      <mat-error *ngIf="addRestaurantForm.get('title').hasError('required')"
+        >Title is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Image URL</mat-label>
+      <input matInput formControlName="image" required />
+      <mat-error *ngIf="addRestaurantForm.get('image').hasError('required')"
+        >Image URL is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Chef's ID</mat-label>
+      <input matInput formControlName="chef" required />
+      <mat-error *ngIf="addRestaurantForm.get('chef').hasError('required')"
+        >Chef's name is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Rating</mat-label>
+      <input matInput type="number" formControlName="rating" required />
+      <mat-error *ngIf="addRestaurantForm.get('rating').hasError('required')"
+        >Rating is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-checkbox formControlName="isPopular">Is Popular?</mat-checkbox>
+    <div mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="false">Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!addRestaurantForm.valid"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+</div>
