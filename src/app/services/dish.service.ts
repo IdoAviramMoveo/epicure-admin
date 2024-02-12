@@ -22,4 +22,8 @@ export class DishService {
   updateDish(id: string, dishData: IDish): Observable<IDish> {
     return this.http.put<IDish>(`${this.baseUrl}/${id}`, dishData);
   }
+
+  deleteDish(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
 }

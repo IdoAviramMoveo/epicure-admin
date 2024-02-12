@@ -30,7 +30,6 @@ export class DishesTableComponent implements OnInit {
     this.dishService.getAllDishes().subscribe((dishes) => {
       this.dataSource.data = dishes;
     });
-    console.log(this.dataSource.data);
   }
 
   addDish(): void {
@@ -56,6 +55,15 @@ export class DishesTableComponent implements OnInit {
         this.refreshTable();
       }
     });
+  }
+
+  deleteDish(id: string): void {
+    if (confirm('Are you sure to delete this dish?')) {
+      this.dishService.deleteDish(id).subscribe({
+        next: () => this.refreshTable(),
+        error: (err) => console.error(err),
+      });
+    }
   }
 
   refreshTable(): void {
