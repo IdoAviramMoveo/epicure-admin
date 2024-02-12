@@ -10,6 +10,7 @@ import { DishService } from '../../../services/dish.service';
 })
 export class AddDishModalComponent {
   addDishForm: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddDishModalComponent>,
