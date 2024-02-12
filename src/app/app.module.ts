@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,6 +22,7 @@ import { AddDishModalComponent } from './components/dishes-table/add-dish-modal/
 import { EditDishModalComponent } from './components/dishes-table/edit-dish-modal/edit-dish-modal.component';
 import { AddChefModalComponent } from './components/chefs-table/add-chef-modal/add-chef-modal.component';
 import { EditChefModalComponent } from './components/chefs-table/edit-chef-modal/edit-chef-modal.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -34,9 +36,11 @@ import { EditChefModalComponent } from './components/chefs-table/edit-chef-modal
     EditDishModalComponent,
     AddChefModalComponent,
     EditChefModalComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     HttpClientModule,
     MatTableModule,
     ReactiveFormsModule,
