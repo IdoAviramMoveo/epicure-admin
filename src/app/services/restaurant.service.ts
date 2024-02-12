@@ -23,6 +23,13 @@ export class RestaurantService {
     return this.http.post<IRestaurant>(this.baseUrl, restaurantData);
   }
 
+  updateRestaurant(
+    id: string,
+    restaurantData: IRestaurant
+  ): Observable<IRestaurant> {
+    return this.http.put<IRestaurant>(`${this.baseUrl}/${id}`, restaurantData);
+  }
+
   deleteRestaurant(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }

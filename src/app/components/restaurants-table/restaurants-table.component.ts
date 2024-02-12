@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RestaurantService } from '../../services/restaurant.service';
 import { IRestaurant } from '../../models/restaurant.model';
 import { AddRestaurantModalComponent } from './add-restaurant-modal/add-restaurant-modal.component';
+import { EditRestaurantModalComponent } from './edit-restaurant-modal/edit-restaurant-modal.component';
 
 @Component({
   selector: 'app-restaurants-table',
@@ -35,9 +36,22 @@ export class RestaurantsTableComponent implements OnInit {
       });
   }
 
-  openAddRestaurantModal(): void {
+  addRestaurant(): void {
     const dialogRef = this.dialog.open(AddRestaurantModalComponent, {
       width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.refreshTable();
+      }
+    });
+  }
+
+  editRestaurant(restaurant: IRestaurant): void {
+    const dialogRef = this.dialog.open(EditRestaurantModalComponent, {
+      width: '300px',
+      data: restaurant,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

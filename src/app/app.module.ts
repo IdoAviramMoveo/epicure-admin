@@ -16,6 +16,7 @@ import { RestaurantsTableComponent } from './components/restaurants-table/restau
 import { ChefsTableComponent } from './components/chefs-table/chefs-table.component';
 import { DishesTableComponent } from './components/dishes-table/dishes-table.component';
 import { AddRestaurantModalComponent } from './components/restaurants-table/add-restaurant-modal/add-restaurant-modal.component';
+import { EditRestaurantModalComponent } from './components/restaurants-table/edit-restaurant-modal/edit-restaurant-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { AddRestaurantModalComponent } from './components/restaurants-table/add-
     ChefsTableComponent,
     DishesTableComponent,
     AddRestaurantModalComponent,
+    EditRestaurantModalComponent,
   ],
   imports: [
     BrowserModule,
