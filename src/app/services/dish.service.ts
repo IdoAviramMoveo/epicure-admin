@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { IDish } from '../models/dish.model';
 
 @Injectable({
@@ -11,4 +10,16 @@ export class DishService {
   private baseUrl: string = 'http://localhost:3000/dishes';
 
   constructor(private http: HttpClient) {}
+
+  getAllDishes(): Observable<IDish[]> {
+    return this.http.get<IDish[]>(this.baseUrl);
+  }
+
+  addDish(dishData: IDish): Observable<IDish> {
+    return this.http.post<IDish>(this.baseUrl, dishData);
+  }
+
+  updateDish(id: string, dishData: IDish): Observable<IDish> {
+    return this.http.put<IDish>(`${this.baseUrl}/${id}`, dishData);
+  }
 }

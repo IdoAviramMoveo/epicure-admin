@@ -1,0 +1,42 @@
+.text-container {
+  text-align: center;
+}
+
+.add-dish-button {
+  margin-bottom: 20px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.icons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  border-bottom: 1px solid black;
+}
+
+td {
+  border: none;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
