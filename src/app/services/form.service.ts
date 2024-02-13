@@ -11,7 +11,10 @@ export class FormService {
     return this.fb.group({
       title: [restaurantData ? restaurantData.title : '', Validators.required],
       image: [restaurantData ? restaurantData.image : '', Validators.required],
-      chef: [restaurantData ? restaurantData.chef : '', Validators.required],
+      chefId: [
+        restaurantData && restaurantData.chef ? restaurantData.chef.id : '',
+        Validators.required,
+      ],
       rating: [
         restaurantData ? restaurantData.rating : '',
         [Validators.required, Validators.min(1), Validators.max(5)],

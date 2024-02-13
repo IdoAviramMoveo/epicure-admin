@@ -1,88 +1,92 @@
-<button mat-raised-button class="add-chef-button" (click)="addChef()">
-  Add Chef
-</button>
-
 <div class="chefs-table-container">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef class="text-container">Title</th>
-      <td mat-cell *matCellDef="let element" class="text-container">
-        {{ element.title }}
-      </td>
-    </ng-container>
+  <button mat-raised-button class="add-chef-button" (click)="addChef()">
+    Add Chef
+  </button>
 
-    <ng-container matColumnDef="image">
-      <th mat-header-cell *matHeaderCellDef class="text-container">Image</th>
-      <td mat-cell *matCellDef="let element" class="image-container">
-        <img [src]="element.image" alt="Chef Image" height="70" width="80" />
-      </td>
-    </ng-container>
+  <div class="scrollable-table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef class="text-container">Title</th>
+        <td mat-cell *matCellDef="let element" class="text-container">
+          {{ element.title }}
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef class="text-container">
-        Description
-      </th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.description }}
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef class="text-container">Image</th>
+        <td mat-cell *matCellDef="let element" class="image-container">
+          <img [src]="element.image" alt="Chef Image" height="70" width="80" />
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="restaurants">
-      <th mat-header-cell *matHeaderCellDef class="text-container">
-        Restaurants
-      </th>
-      <td mat-cell *matCellDef="let element">
-        <ul>
-          <li
-            *ngFor="let restaurant of element.restaurants"
-            class="text-container"
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef class="text-container">
+          Description
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.description }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="restaurants">
+        <th mat-header-cell *matHeaderCellDef class="text-container">
+          Restaurants
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ul>
+            <li
+              *ngFor="let restaurant of element.restaurants"
+              class="text-container"
+            >
+              {{ restaurant.title }}
+            </li>
+          </ul>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="isChefOfTheWeek">
+        <th mat-header-cell *matHeaderCellDef class="text-container">
+          Is Chef Of The Week
+        </th>
+        <td mat-cell *matCellDef="let element" class="text-container">
+          {{ element.isChefOfTheWeek ? "Yes" : "No" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-container">
+          Actions
+        </th>
+        <td mat-cell *matCellDef="let row" class="icons-container">
+          <button
+            mat-icon-button
+            color="accent"
+            aria-label="Set Chef of the Week"
+            (click)="setChefOfTheWeek(row._id)"
           >
-            {{ restaurant.title }}
-          </li>
-        </ul>
-      </td>
-    </ng-container>
+            <mat-icon class="yellow-star">star</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="primary"
+            aria-label="Edit chef"
+            (click)="editChef(row)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            color="warn"
+            aria-label="Delete chef"
+            (click)="deleteChef(row._id)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="isChefOfTheWeek">
-      <th mat-header-cell *matHeaderCellDef class="text-container">
-        Is Chef Of The Week
-      </th>
-      <td mat-cell *matCellDef="let element" class="text-container">
-        {{ element.isChefOfTheWeek ? "Yes" : "No" }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef class="text-container">Actions</th>
-      <td mat-cell *matCellDef="let row" class="icons-container">
-        <button
-          mat-icon-button
-          color="accent"
-          aria-label="Set Chef of the Week"
-          (click)="setChefOfTheWeek(row._id)"
-        >
-          <mat-icon class="yellow-star">star</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          color="primary"
-          aria-label="Edit chef"
-          (click)="editChef(row)"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          color="warn"
-          aria-label="Delete chef"
-          (click)="deleteChef(row._id)"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
 </div>
