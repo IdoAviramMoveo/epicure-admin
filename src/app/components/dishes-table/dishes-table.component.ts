@@ -3,8 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { DishService } from '../../services/dish.service';
 import { IDish } from '../../models/dish.model';
-import { AddDishModalComponent } from './add-dish-modal/add-dish-modal.component';
-import { EditDishModalComponent } from './edit-dish-modal/edit-dish-modal.component';
+import { GenericModalComponent } from '../generic-modal/generic-modal.component';
+import { FormService } from '../../services/form.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dishes-table',
@@ -24,7 +25,11 @@ export class DishesTableComponent implements OnInit {
   ];
   public dataSource = new MatTableDataSource<IDish>();
 
-  constructor(private dishService: DishService, public dialog: MatDialog) {}
+  constructor(
+    private dishService: DishService,
+    public dialog: MatDialog,
+    private formService: FormService
+  ) {}
 
   ngOnInit(): void {
     this.dishService.getAllDishes().subscribe((dishes) => {
@@ -32,29 +37,42 @@ export class DishesTableComponent implements OnInit {
     });
   }
 
-  addDish(): void {
-    const dialogRef = this.dialog.open(AddDishModalComponent, {
-      width: '250px',
+  openGenericModal(dish: IDish | null): void {
+    const isEditOperation = !!dish;
+    const modalTitle = isEditOperation ? 'Edit Dish' : 'Add Dish';
+    const formGroup = this.formService.initDishForm(dish || undefined);
+
+    const dialogRef = this.dialog.open(GenericModalComponent, {
+      width: '300px',
+      data: { formGroup, modalTitle },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.refreshTable();
+    dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
+      const formValue = form.getRawValue();
+      if (isEditOperation) {
+        this.dishService.updateDish(dish._id, formValue).subscribe({
+          next: () => this.refreshTable(),
+          error: (err) => console.error(err),
+        });
+      } else {
+        this.dishService.addDish(formValue).subscribe({
+          next: () => this.refreshTable(),
+          error: (err) => console.error(err),
+        });
       }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      dialogRef.componentInstance.submitForm.unsubscribe();
     });
   }
 
-  editDish(dish: IDish): void {
-    const dialogRef = this.dialog.open(EditDishModalComponent, {
-      width: '300px',
-      data: dish,
-    });
+  addDish(): void {
+    this.openGenericModal(null);
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.refreshTable();
-      }
-    });
+  editDish(dish: IDish): void {
+    this.openGenericModal(dish);
   }
 
   deleteDish(id: string): void {

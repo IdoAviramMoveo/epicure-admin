@@ -3,8 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ChefService } from '../../services/chef.service';
 import { IChef } from '../../models/chef.model';
-import { AddChefModalComponent } from './add-chef-modal/add-chef-modal.component';
-import { EditChefModalComponent } from './edit-chef-modal/edit-chef-modal.component';
+import { GenericModalComponent } from '../generic-modal/generic-modal.component';
+import { FormService } from '../../services/form.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-chefs-table',
@@ -22,7 +23,11 @@ export class ChefsTableComponent implements OnInit {
   ];
   public dataSource = new MatTableDataSource<IChef>();
 
-  constructor(private chefService: ChefService, public dialog: MatDialog) {}
+  constructor(
+    private chefService: ChefService,
+    public dialog: MatDialog,
+    private formService: FormService
+  ) {}
 
   ngOnInit(): void {
     this.chefService.getAllChefs().subscribe((chefs) => {
@@ -30,28 +35,42 @@ export class ChefsTableComponent implements OnInit {
     });
   }
 
-  addChef(): void {
-    const dialogRef = this.dialog.open(AddChefModalComponent, {
-      width: '250px',
+  openGenericModal(chef: IChef | null): void {
+    const isEditOperation = !!chef;
+    const modalTitle = isEditOperation ? 'Edit Chef' : 'Add Chef';
+    const formGroup = this.formService.initChefForm(chef || undefined);
+
+    const dialogRef = this.dialog.open(GenericModalComponent, {
+      width: '300px',
+      data: { formGroup, modalTitle },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.refreshTable();
+
+    dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
+      const formValue = form.getRawValue();
+      if (isEditOperation) {
+        this.chefService.updateChef(chef._id, formValue).subscribe({
+          next: () => this.refreshTable(),
+          error: (err) => console.error(err),
+        });
+      } else {
+        this.chefService.addChef(formValue).subscribe({
+          next: () => this.refreshTable(),
+          error: (err) => console.error(err),
+        });
       }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      dialogRef.componentInstance.submitForm.unsubscribe();
     });
   }
 
-  editChef(chef: IChef): void {
-    const dialogRef = this.dialog.open(EditChefModalComponent, {
-      width: '300px',
-      data: chef,
-    });
+  addChef(): void {
+    this.openGenericModal(null);
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.refreshTable();
-      }
-    });
+  editChef(chef: IChef): void {
+    this.openGenericModal(chef);
   }
 
   deleteChef(id: string): void {

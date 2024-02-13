@@ -3,8 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { RestaurantService } from '../../services/restaurant.service';
 import { IRestaurant } from '../../models/restaurant.model';
-import { AddRestaurantModalComponent } from './add-restaurant-modal/add-restaurant-modal.component';
-import { EditRestaurantModalComponent } from './edit-restaurant-modal/edit-restaurant-modal.component';
+import { GenericModalComponent } from '../generic-modal/generic-modal.component';
+import { FormService } from '../../services/form.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-restaurants-table',
@@ -25,7 +26,8 @@ export class RestaurantsTableComponent implements OnInit {
 
   constructor(
     private restaurantService: RestaurantService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private formService: FormService
   ) {}
 
   ngOnInit(): void {
@@ -36,29 +38,46 @@ export class RestaurantsTableComponent implements OnInit {
       });
   }
 
-  addRestaurant(): void {
-    const dialogRef = this.dialog.open(AddRestaurantModalComponent, {
-      width: '250px',
+  openGenericModal(restaurant: IRestaurant | null): void {
+    const isEditOperation = !!restaurant;
+    const modalTitle = isEditOperation ? 'Edit Restaurant' : 'Add Restaurant';
+    const formGroup = this.formService.initRestaurantForm(
+      restaurant || undefined
+    );
+
+    const dialogRef = this.dialog.open(GenericModalComponent, {
+      width: '300px',
+      data: { formGroup, modalTitle },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.refreshTable();
+    dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
+      const formValue = form.getRawValue();
+      if (isEditOperation) {
+        this.restaurantService
+          .updateRestaurant(restaurant._id, formValue)
+          .subscribe({
+            next: () => this.refreshTable(),
+            error: (err) => console.error(err),
+          });
+      } else {
+        this.restaurantService.addRestaurant(formValue).subscribe({
+          next: () => this.refreshTable(),
+          error: (err) => console.error(err),
+        });
       }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      dialogRef.componentInstance.submitForm.unsubscribe();
     });
   }
 
-  editRestaurant(restaurant: IRestaurant): void {
-    const dialogRef = this.dialog.open(EditRestaurantModalComponent, {
-      width: '300px',
-      data: restaurant,
-    });
+  addRestaurant(): void {
+    this.openGenericModal(null);
+  }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.refreshTable();
-      }
-    });
+  editRestaurant(restaurant: IRestaurant): void {
+    this.openGenericModal(restaurant);
   }
 
   deleteRestaurant(id: string): void {

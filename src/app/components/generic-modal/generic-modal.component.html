@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>{{ modalTitle }}</h2>
+<div mat-dialog-content>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div *ngFor="let controlName of formGroup.controls | keyvalue : keepOrder">
+      <ng-container
+        *ngIf="isBooleanControl(controlName.value); else otherControls"
+      >
+        <mat-checkbox [formControlName]="controlName.key">{{
+          formatLabel(controlName.key)
+        }}</mat-checkbox>
+      </ng-container>
+      <ng-template #otherControls>
+        <mat-form-field appearance="fill">
+          <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
+          <input matInput [formControlName]="controlName.key" required />
+          <mat-error *ngIf="controlName.value.errors?.required">
+            {{ formatLabel(controlName.key) }} is required
+          </mat-error>
+        </mat-form-field>
+      </ng-template>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="false">Cancel</button>
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

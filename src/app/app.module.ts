@@ -16,13 +16,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { RestaurantsTableComponent } from './components/restaurants-table/restaurants-table.component';
 import { ChefsTableComponent } from './components/chefs-table/chefs-table.component';
 import { DishesTableComponent } from './components/dishes-table/dishes-table.component';
-import { AddRestaurantModalComponent } from './components/restaurants-table/add-restaurant-modal/add-restaurant-modal.component';
-import { EditRestaurantModalComponent } from './components/restaurants-table/edit-restaurant-modal/edit-restaurant-modal.component';
-import { AddDishModalComponent } from './components/dishes-table/add-dish-modal/add-dish-modal.component';
-import { EditDishModalComponent } from './components/dishes-table/edit-dish-modal/edit-dish-modal.component';
-import { AddChefModalComponent } from './components/chefs-table/add-chef-modal/add-chef-modal.component';
-import { EditChefModalComponent } from './components/chefs-table/edit-chef-modal/edit-chef-modal.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { GenericModalComponent } from './components/generic-modal/generic-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,13 +25,8 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     RestaurantsTableComponent,
     ChefsTableComponent,
     DishesTableComponent,
-    AddRestaurantModalComponent,
-    EditRestaurantModalComponent,
-    AddDishModalComponent,
-    EditDishModalComponent,
-    AddChefModalComponent,
-    EditChefModalComponent,
     NavBarComponent,
+    GenericModalComponent,
   ],
   imports: [
     BrowserModule,

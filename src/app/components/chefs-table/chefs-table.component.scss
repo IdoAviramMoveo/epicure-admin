@@ -3,7 +3,7 @@
 }
 
 .add-chef-button {
-  margin-bottom: 20px;
+  border: 1px solid black;
 }
 
 .image-container {
@@ -27,6 +27,8 @@
 
 table {
   border-collapse: collapse;
+  background-color: rgba(238, 238, 238, 0.483);
+  border: 2px solid black;
 }
 
 th {
