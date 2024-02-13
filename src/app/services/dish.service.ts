@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IDish } from '../models/dish.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DishService {
-  private baseUrl: string = 'http://localhost:3000/dishes';
+  private baseUrl: string = environment.baseUrl + '/dishes';
 
   constructor(private http: HttpClient) {}
 

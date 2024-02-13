@@ -1,5 +1,11 @@
 import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormArray,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -11,9 +17,11 @@ export class GenericModalComponent {
   @Input() modalTitle: string;
   @Input() formGroup: FormGroup;
   @Output() submitForm = new EventEmitter<FormGroup>();
-  @Input() dropdownOptions: any;
+  @Input() dropdownOptions: any = { tags: ['Spicy', 'Vegan', 'Vegi'] };
+  @Input() isDishForm: boolean = false;
 
   constructor(
+    private fb: FormBuilder,
     private dialogRef: MatDialogRef<GenericModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -23,6 +31,9 @@ export class GenericModalComponent {
     if (data && data.modalTitle) {
       this.modalTitle = data.modalTitle;
     }
+    if (data && data.isDishForm) {
+      this.isDishForm = data.isDishForm || false;
+    }
   }
 
   isBooleanControl(control: AbstractControl): boolean {
@@ -31,6 +42,13 @@ export class GenericModalComponent {
   }
 
   formatLabel(label: string): string {
+    if (label === 'restaurant') {
+      return 'Restaurant ID';
+    }
+    if (label === 'chef') {
+      return 'Chef ID';
+    }
+
     return label
       .replace(/([A-Z0-9]+)/g, ' $1')
       .replace(/_/g, ' ')
@@ -42,9 +60,19 @@ export class GenericModalComponent {
   }
 
   isDropdownControl(controlName: string): boolean {
-    return (
-      this.dropdownOptions && this.dropdownOptions.hasOwnProperty(controlName)
-    );
+    return Object.keys(this.dropdownOptions).includes(controlName);
+  }
+
+  get ingredients(): FormArray {
+    return this.formGroup.get('ingredients') as FormArray;
+  }
+
+  addIngredient(): void {
+    this.ingredients.push(this.fb.control('', Validators.required));
+  }
+
+  removeIngredient(index: number): void {
+    this.ingredients.removeAt(index);
   }
 
   onSubmit() {

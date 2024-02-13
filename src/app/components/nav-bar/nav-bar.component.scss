@@ -2,9 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 100px;
   height: 64px;
-  background-color: white;
+  background-color: rgb(238, 242, 255);
   border-bottom: 1px solid black;
   margin-bottom: 50px;
 
@@ -26,11 +26,11 @@
       padding: 10px;
       &:hover {
         color: #555;
-        background-color: #f0f0f0;
+        background-color: rgb(200, 211, 245);
         border-radius: 10px;
       }
       &.active-link {
-        background-color: #f0f0f0;
+        background-color: rgb(200, 211, 245);
         border-radius: 10px;
         font-weight: bold;
       }

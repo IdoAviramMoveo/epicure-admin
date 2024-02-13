@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IRestaurant } from '../models/restaurant.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestaurantService {
-  private baseUrl: string = 'http://localhost:3000/restaurants';
+  private baseUrl: string = environment.baseUrl + '/restaurants';
 
   constructor(private http: HttpClient) {}
 

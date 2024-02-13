@@ -4,7 +4,7 @@ import { DishService } from '../../services/dish.service';
 import { IDish } from '../../models/dish.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-dishes-table',
@@ -67,7 +67,7 @@ export class DishesTableComponent implements OnInit {
 
     const dialogRef = this.dialog.open(GenericModalComponent, {
       width: '300px',
-      data: { formGroup, modalTitle },
+      data: { formGroup, modalTitle, isDishForm: true },
     });
 
     dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {

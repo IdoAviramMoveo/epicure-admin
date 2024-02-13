@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IChef } from '../models/chef.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChefService {
-  private baseUrl: string = 'http://localhost:3000/chefs';
+  private baseUrl: string = environment.baseUrl + '/chefs';
 
   constructor(private http: HttpClient) {}
 

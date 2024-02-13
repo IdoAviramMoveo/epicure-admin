@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ export class FormService {
     return this.fb.group({
       title: [restaurantData ? restaurantData.title : '', Validators.required],
       image: [restaurantData ? restaurantData.image : '', Validators.required],
-      chefId: [
+      chef: [
         restaurantData && restaurantData.chef ? restaurantData.chef._id : '',
         Validators.required,
       ],
@@ -35,12 +35,28 @@ export class FormService {
     return this.fb.group({
       title: [dishData ? dishData.title : '', Validators.required],
       image: [dishData ? dishData.image : '', Validators.required],
-      restaurantId: [
+      restaurant: [
         dishData && dishData.restaurant ? dishData.restaurant._id : '',
         Validators.required,
       ],
       price: [dishData ? dishData.price : '', Validators.required],
+      tags: [dishData ? dishData.tags[0] : '', Validators.required],
+      ingredients: this.fb.array(
+        dishData && dishData.ingredients
+          ? dishData.ingredients.map((ingredient) =>
+              this.fb.control(ingredient)
+            )
+          : []
+      ),
       isSignature: [dishData ? dishData.isSignature : false],
     });
+  }
+
+  addIngredient(ingredients: FormArray) {
+    ingredients.push(this.fb.control('', Validators.required));
+  }
+
+  removeIngredient(ingredients: FormArray, index: number) {
+    ingredients.removeAt(index);
   }
 }
