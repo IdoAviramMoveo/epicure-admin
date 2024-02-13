@@ -18,6 +18,7 @@ import { ChefsTableComponent } from './components/chefs-table/chefs-table.compon
 import { DishesTableComponent } from './components/dishes-table/dishes-table.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { GenericModalComponent } from './components/generic-modal/generic-modal.component';
+import { GenericTableComponent } from './components/generic-table/generic-table.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { GenericModalComponent } from './components/generic-modal/generic-modal.
     DishesTableComponent,
     NavBarComponent,
     GenericModalComponent,
+    GenericTableComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { DishService } from '../../services/dish.service';
 import { IDish } from '../../models/dish.model';
@@ -13,17 +12,43 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './dishes-table.component.scss',
 })
 export class DishesTableComponent implements OnInit {
-  public displayedColumns: string[] = [
-    'title',
-    'image',
-    'ingredients',
-    'tags',
-    'price',
-    'restaurant',
-    'isSignature',
-    'actions',
+  public columns: any[] = [
+    {
+      columnDef: 'title',
+      header: 'Title',
+      cell: (element: IDish) => element.title,
+    },
+    {
+      columnDef: 'image',
+      header: 'Image',
+      cell: (element: IDish) => element.image,
+    },
+    {
+      columnDef: 'ingredients',
+      header: 'Ingredients',
+      cell: (element: IDish) => element.ingredients.join(', '),
+    },
+    {
+      columnDef: 'tags',
+      header: 'Tags',
+      cell: (element: IDish) => element.tags.join(', '),
+    },
+    {
+      columnDef: 'price',
+      header: 'Price',
+      cell: (element: IDish) => element.price.toString(),
+    },
+    {
+      columnDef: 'isSignature',
+      header: 'Is Signature',
+      cell: (element: IDish) => (element.isSignature ? 'Yes' : 'No'),
+    },
+    {
+      columnDef: 'actions',
+      header: 'Actions',
+    },
   ];
-  public dataSource = new MatTableDataSource<IDish>();
+  public data: IDish[] = [];
 
   constructor(
     private dishService: DishService,
@@ -32,9 +57,7 @@ export class DishesTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dishService.getAllDishes().subscribe((dishes) => {
-      this.dataSource.data = dishes;
-    });
+    this.refreshTable();
   }
 
   openGenericModal(dish: IDish | null): void {
@@ -49,7 +72,7 @@ export class DishesTableComponent implements OnInit {
 
     dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
       const formValue = form.getRawValue();
-      if (isEditOperation) {
+      if (isEditOperation && dish) {
         this.dishService.updateDish(dish._id, formValue).subscribe({
           next: () => this.refreshTable(),
           error: (err) => console.error(err),
@@ -87,7 +110,7 @@ export class DishesTableComponent implements OnInit {
   refreshTable(): void {
     this.dishService.getAllDishes().subscribe({
       next: (data) => {
-        this.dataSource.data = data;
+        this.data = data;
       },
       error: (err) => {
         console.error(err);

@@ -13,16 +13,44 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './restaurants-table.component.scss',
 })
 export class RestaurantsTableComponent implements OnInit {
-  public displayedColumns: string[] = [
-    'title',
-    'image',
-    'chef',
-    'rating',
-    'dishes',
-    'isPopular',
-    'actions',
+  public columns: any[] = [
+    {
+      columnDef: 'title',
+      header: 'Title',
+      cell: (element: IRestaurant) => element.title,
+    },
+    {
+      columnDef: 'image',
+      header: 'Image',
+      cell: (element: IRestaurant) => element.image,
+    },
+    {
+      columnDef: 'chef',
+      header: 'Chef',
+      cell: (element: IRestaurant) => element.chef.title,
+    },
+    {
+      columnDef: 'dishes',
+      header: 'Dishes',
+      cell: (element: IRestaurant) =>
+        element.dishes.map((dish) => dish.title).join(', '),
+    },
+    {
+      columnDef: 'rating',
+      header: 'Rating',
+      cell: (element: IRestaurant) => element.rating.toString(),
+    },
+    {
+      columnDef: 'isPopular',
+      header: 'Is Popular',
+      cell: (element: IRestaurant) => (element.isPopular ? 'Yes' : 'No'),
+    },
+    {
+      columnDef: 'actions',
+      header: 'Actions',
+    },
   ];
-  public dataSource = new MatTableDataSource<IRestaurant>();
+  public data: IRestaurant[] = [];
 
   constructor(
     private restaurantService: RestaurantService,
@@ -31,11 +59,7 @@ export class RestaurantsTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.restaurantService
-      .getAllRestaurantsWithDishes()
-      .subscribe((restaurants) => {
-        this.dataSource.data = restaurants;
-      });
+    this.refreshTable();
   }
 
   openGenericModal(restaurant: IRestaurant | null): void {
@@ -92,7 +116,7 @@ export class RestaurantsTableComponent implements OnInit {
   refreshTable(): void {
     this.restaurantService.getAllRestaurantsWithDishes().subscribe({
       next: (data) => {
-        this.dataSource.data = data;
+        this.data = data;
       },
       error: (err) => {
         console.error(err);

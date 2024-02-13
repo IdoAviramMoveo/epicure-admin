@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ChefService } from '../../services/chef.service';
 import { IChef } from '../../models/chef.model';
@@ -13,15 +12,41 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './chefs-table.component.scss',
 })
 export class ChefsTableComponent implements OnInit {
-  public displayedColumns: string[] = [
-    'title',
-    'image',
-    'description',
-    'restaurants',
-    'isChefOfTheWeek',
-    'actions',
+  public columns: any[] = [
+    {
+      columnDef: 'title',
+      header: 'Title',
+      cell: (element: IChef) => element.title,
+    },
+    {
+      columnDef: 'image',
+      header: 'Image',
+      cell: (element: IChef) => element.image,
+    },
+    {
+      columnDef: 'description',
+      header: 'Description',
+      cell: (element: IChef) => element.description,
+    },
+    {
+      columnDef: 'restaurants',
+      header: 'Restaurants',
+      cell: (element: IChef) =>
+        element.restaurants.map((restaurant) => restaurant.title).join(', '),
+    },
+
+    {
+      columnDef: 'isChefOfTheWeek',
+      header: 'Is Chef Of The Week',
+      cell: (element: IChef) => (element.isChefOfTheWeek ? 'Yes' : 'No'),
+    },
+    {
+      columnDef: 'actions',
+      header: 'Actions',
+    },
   ];
-  public dataSource = new MatTableDataSource<IChef>();
+
+  public data: IChef[] = [];
 
   constructor(
     private chefService: ChefService,
@@ -30,9 +55,7 @@ export class ChefsTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.chefService.getAllChefs().subscribe((chefs) => {
-      this.dataSource.data = chefs;
-    });
+    this.refreshTable();
   }
 
   openGenericModal(chef: IChef | null): void {
@@ -97,7 +120,7 @@ export class ChefsTableComponent implements OnInit {
   refreshTable(): void {
     this.chefService.getAllChefs().subscribe({
       next: (data) => {
-        this.dataSource.data = data;
+        this.data = data;
       },
       error: (err) => {
         console.error(err);

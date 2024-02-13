@@ -12,7 +12,7 @@ export class FormService {
       title: [restaurantData ? restaurantData.title : '', Validators.required],
       image: [restaurantData ? restaurantData.image : '', Validators.required],
       chefId: [
-        restaurantData && restaurantData.chef ? restaurantData.chef.id : '',
+        restaurantData && restaurantData.chef ? restaurantData.chef._id : '',
         Validators.required,
       ],
       rating: [
@@ -35,7 +35,10 @@ export class FormService {
     return this.fb.group({
       title: [dishData ? dishData.title : '', Validators.required],
       image: [dishData ? dishData.image : '', Validators.required],
-      restaurant: [dishData ? dishData.restaurant : '', Validators.required],
+      restaurantId: [
+        dishData && dishData.restaurant ? dishData.restaurant._id : '',
+        Validators.required,
+      ],
       price: [dishData ? dishData.price : '', Validators.required],
       isSignature: [dishData ? dishData.isSignature : false],
     });
