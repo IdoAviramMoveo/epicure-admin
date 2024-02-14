@@ -34,7 +34,6 @@ export class ChefsTableComponent implements OnInit {
       cell: (element: IChef) =>
         element.restaurants.map((restaurant) => restaurant.title).join(', '),
     },
-
     {
       columnDef: 'isChefOfTheWeek',
       header: 'Is Chef Of The Week',

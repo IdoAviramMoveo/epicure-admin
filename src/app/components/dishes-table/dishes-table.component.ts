@@ -4,7 +4,7 @@ import { DishService } from '../../services/dish.service';
 import { IDish } from '../../models/dish.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-dishes-table',
