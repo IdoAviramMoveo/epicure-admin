@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
+import { IChef } from '../models/chef.model';
 
 @Injectable({
   providedIn: 'root',
@@ -7,14 +8,22 @@ import { FormBuilder, Validators, FormArray } from '@angular/forms';
 export class FormService {
   constructor(private fb: FormBuilder) {}
 
-  initRestaurantForm(restaurantData = null) {
+  initRestaurantForm(restaurantData = null, chefs: IChef[] = []) {
+    let chefId = '';
+    if (
+      restaurantData &&
+      restaurantData.chef &&
+      typeof restaurantData.chef === 'object'
+    ) {
+      chefId = restaurantData.chef._id;
+    } else if (restaurantData && typeof restaurantData.chef === 'string') {
+      chefId = restaurantData.chef;
+    }
+
     return this.fb.group({
       title: [restaurantData ? restaurantData.title : '', Validators.required],
       image: [restaurantData ? restaurantData.image : '', Validators.required],
-      chef: [
-        restaurantData && restaurantData.chef ? restaurantData.chef._id : '',
-        Validators.required,
-      ],
+      chef: [chefId, Validators.required],
       rating: [
         restaurantData ? restaurantData.rating : '',
         [Validators.required, Validators.min(1), Validators.max(5)],

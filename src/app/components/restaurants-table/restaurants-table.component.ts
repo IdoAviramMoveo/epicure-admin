@@ -1,7 +1,9 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RestaurantService } from '../../services/restaurant.service';
+import { ChefService } from '../../services/chef.service';
 import { IRestaurant } from '../../models/restaurant.model';
+import { IChef } from '../../models/chef.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
@@ -18,16 +20,19 @@ export class RestaurantsTableComponent implements OnInit {
   public columns: any[] = restaurantColumns;
   public actions: TableAction[];
   public data: IRestaurant[] = [];
+  public chefs: IChef[] = [];
 
   constructor(
     private restaurantService: RestaurantService,
     public dialog: MatDialog,
-    private formService: FormService
+    private formService: FormService,
+    private chefService: ChefService
   ) {}
 
   ngOnInit(): void {
     this.refreshTable();
     this.setupActions();
+    this.loadChefs();
   }
 
   setupActions(): void {
@@ -45,34 +50,37 @@ export class RestaurantsTableComponent implements OnInit {
   openGenericModal(restaurant: IRestaurant | null): void {
     const isEditOperation = !!restaurant;
     const modalTitle = isEditOperation ? 'Edit Restaurant' : 'Add Restaurant';
-    const formGroup = this.formService.initRestaurantForm(
-      restaurant || undefined
-    );
+    this.chefService.getAllChefs().subscribe((chefs: IChef[]) => {
+      const formGroup = this.formService.initRestaurantForm(
+        restaurant || undefined,
+        chefs
+      );
 
-    const dialogRef = this.dialog.open(GenericModalComponent, {
-      width: '300px',
-      data: { formGroup, modalTitle },
-    });
+      const dialogRef = this.dialog.open(GenericModalComponent, {
+        width: '300px',
+        data: { formGroup, modalTitle, chefs },
+      });
 
-    dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
-      const formValue = form.getRawValue();
-      if (isEditOperation) {
-        this.restaurantService
-          .updateRestaurant(restaurant._id, formValue)
-          .subscribe({
+      dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
+        const formValue = form.getRawValue();
+        if (isEditOperation) {
+          this.restaurantService
+            .updateRestaurant(restaurant._id, formValue)
+            .subscribe({
+              next: () => this.refreshTable(),
+              error: (err) => console.error(err),
+            });
+        } else {
+          this.restaurantService.addRestaurant(formValue).subscribe({
             next: () => this.refreshTable(),
             error: (err) => console.error(err),
           });
-      } else {
-        this.restaurantService.addRestaurant(formValue).subscribe({
-          next: () => this.refreshTable(),
-          error: (err) => console.error(err),
-        });
-      }
-    });
+        }
+      });
 
-    dialogRef.afterClosed().subscribe(() => {
-      dialogRef.componentInstance.submitForm.unsubscribe();
+      dialogRef.afterClosed().subscribe(() => {
+        dialogRef.componentInstance.submitForm.unsubscribe();
+      });
     });
   }
 
@@ -115,6 +123,12 @@ export class RestaurantsTableComponent implements OnInit {
       error: (err) => {
         console.error(err);
       },
+    });
+  }
+
+  loadChefs(): void {
+    this.chefService.getAllChefs().subscribe((chefs: IChef[]) => {
+      this.chefs = chefs;
     });
   }
 }

@@ -7,6 +7,7 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IChef } from '../../models/chef.model';
 
 @Component({
   selector: 'app-generic-modal',
@@ -19,6 +20,7 @@ export class GenericModalComponent {
   @Output() submitForm = new EventEmitter<FormGroup>();
   @Input() dropdownOptions: any = { tags: ['Spicy', 'Vegan', 'Vegi'] };
   @Input() isDishForm: boolean = false;
+  @Input() chefs: IChef[];
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +35,9 @@ export class GenericModalComponent {
     }
     if (data && data.isDishForm) {
       this.isDishForm = data.isDishForm || false;
+    }
+    if (data && data.chefs) {
+      this.chefs = data.chefs;
     }
   }
 
@@ -73,6 +78,10 @@ export class GenericModalComponent {
 
   removeIngredient(index: number): void {
     this.ingredients.removeAt(index);
+  }
+
+  isChefControl(controlName: string): boolean {
+    return controlName === 'chef';
   }
 
   onSubmit() {

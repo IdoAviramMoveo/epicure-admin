@@ -3,7 +3,11 @@
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <div *ngFor="let controlName of formGroup.controls | keyvalue : keepOrder">
       <ng-container
-        *ngIf="controlName.key !== 'ingredients' && controlName.key !== 'tags'"
+        *ngIf="
+          controlName.key !== 'ingredients' &&
+          controlName.key !== 'tags' &&
+          controlName.key !== 'chef'
+        "
       >
         <ng-container
           *ngIf="
@@ -15,6 +19,7 @@
             formatLabel(controlName.key)
           }}</mat-checkbox>
         </ng-container>
+
         <ng-template #otherControls>
           <mat-form-field appearance="fill">
             <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
@@ -37,6 +42,17 @@
         </mat-select>
       </mat-form-field>
     </div>
+
+    <ng-container *ngIf="chefs">
+      <mat-form-field appearance="fill">
+        <mat-label>Chef</mat-label>
+        <mat-select formControlName="chef">
+          <mat-option *ngFor="let chef of chefs" [value]="chef._id">
+            {{ chef.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
 
     <div *ngIf="isDishForm" formArrayName="ingredients">
       <label>Ingredients:</label>
