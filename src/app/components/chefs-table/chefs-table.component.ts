@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChefService } from '../../services/chef.service';
 import { IChef } from '../../models/chef.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
+import { TableAction } from '../generic-table/generic-table.component';
+import { chefColumns } from '../../data/table-columns';
 
 @Component({
   selector: 'app-chefs-table',
@@ -12,39 +14,8 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './chefs-table.component.scss',
 })
 export class ChefsTableComponent implements OnInit {
-  public columns: any[] = [
-    {
-      columnDef: 'title',
-      header: 'Title',
-      cell: (element: IChef) => element.title,
-    },
-    {
-      columnDef: 'image',
-      header: 'Image',
-      cell: (element: IChef) => element.image,
-    },
-    {
-      columnDef: 'description',
-      header: 'Description',
-      cell: (element: IChef) => element.description,
-    },
-    {
-      columnDef: 'restaurants',
-      header: 'Restaurants',
-      cell: (element: IChef) =>
-        element.restaurants.map((restaurant) => restaurant.title).join(', '),
-    },
-    {
-      columnDef: 'isChefOfTheWeek',
-      header: 'Is Chef Of The Week',
-      cell: (element: IChef) => (element.isChefOfTheWeek ? 'Yes' : 'No'),
-    },
-    {
-      columnDef: 'actions',
-      header: 'Actions',
-    },
-  ];
-
+  public columns: any[] = chefColumns;
+  public actions: TableAction[];
   public data: IChef[] = [];
 
   constructor(
@@ -55,6 +26,43 @@ export class ChefsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTable();
+    this.setupActions();
+  }
+
+  setupActions(): void {
+    this.actions = [
+      {
+        label: 'setChefOfTheWeek',
+        icon: 'star',
+        color: 'accent',
+        class: 'yellow-star',
+        event: new EventEmitter<IChef>(),
+      },
+      {
+        label: 'edit',
+        icon: 'edit',
+        color: 'primary',
+        event: new EventEmitter<IChef>(),
+      },
+      {
+        label: 'delete',
+        icon: 'delete',
+        color: 'warn',
+        event: new EventEmitter<IChef>(),
+      },
+    ];
+
+    this.actions
+      .find((a) => a.label === 'edit')
+      .event.subscribe((chef) => this.editChef(chef));
+
+    this.actions
+      .find((a) => a.label === 'delete')
+      .event.subscribe((chef) => this.deleteChef(chef._id));
+
+    this.actions
+      .find((a) => a.label === 'setChefOfTheWeek')
+      .event.subscribe((chef) => this.setChefOfTheWeek(chef._id));
   }
 
   openGenericModal(chef: IChef | null): void {
@@ -113,6 +121,20 @@ export class ChefsTableComponent implements OnInit {
           alert('There was a problem updating the chef.');
         },
       });
+    }
+  }
+
+  handleAction(action: string, chef: IChef): void {
+    switch (action) {
+      case 'setChefOfTheWeek':
+        this.setChefOfTheWeek(chef._id);
+        break;
+      case 'edit':
+        this.editChef(chef);
+        break;
+      case 'delete':
+        this.deleteChef(chef._id);
+        break;
     }
   }
 

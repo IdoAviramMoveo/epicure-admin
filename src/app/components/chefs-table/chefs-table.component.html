@@ -1,15 +1,6 @@
-<ng-template #setChefOfTheWeekTemplate let-chef>
-  <button mat-icon-button (click)="setChefOfTheWeek(chef._id)" color="accent">
-    <mat-icon class="yellow-star">star</mat-icon>
-  </button>
-</ng-template>
-
 <app-generic-table
-  [isChefsTable]="true"
   [columns]="columns"
   [data]="data"
-  (edit)="editChef($event)"
-  (delete)="deleteChef($event)"
-  (addNew)="addChef()"
-  (setChefOfTheWeek)="setChefOfTheWeek($event)"
+  [actions]="actions"
+  (actionTriggered)="handleAction($event.action, $event.item)"
 ></app-generic-table>

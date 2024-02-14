@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DishService } from '../../services/dish.service';
 import { IDish } from '../../models/dish.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
+import { TableAction } from '../generic-table/generic-table.component';
+import { dishColumns } from '../../data/table-columns';
 
 @Component({
   selector: 'app-dishes-table',
@@ -12,42 +14,8 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './dishes-table.component.scss',
 })
 export class DishesTableComponent implements OnInit {
-  public columns: any[] = [
-    {
-      columnDef: 'title',
-      header: 'Title',
-      cell: (element: IDish) => element.title,
-    },
-    {
-      columnDef: 'image',
-      header: 'Image',
-      cell: (element: IDish) => element.image,
-    },
-    {
-      columnDef: 'ingredients',
-      header: 'Ingredients',
-      cell: (element: IDish) => element.ingredients.join(', '),
-    },
-    {
-      columnDef: 'tags',
-      header: 'Tags',
-      cell: (element: IDish) => element.tags.join(', '),
-    },
-    {
-      columnDef: 'price',
-      header: 'Price',
-      cell: (element: IDish) => element.price.toString(),
-    },
-    {
-      columnDef: 'isSignature',
-      header: 'Is Signature',
-      cell: (element: IDish) => (element.isSignature ? 'Yes' : 'No'),
-    },
-    {
-      columnDef: 'actions',
-      header: 'Actions',
-    },
-  ];
+  public columns: any[] = dishColumns;
+  public actions: TableAction[];
   public data: IDish[] = [];
 
   constructor(
@@ -58,6 +26,32 @@ export class DishesTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTable();
+    this.setupActions();
+  }
+
+  setupActions(): void {
+    this.actions = [
+      {
+        label: 'edit',
+        icon: 'edit',
+        color: 'primary',
+        event: new EventEmitter<IDish>(),
+      },
+      {
+        label: 'delete',
+        icon: 'delete',
+        color: 'warn',
+        event: new EventEmitter<IDish>(),
+      },
+    ];
+
+    this.actions
+      .find((a) => a.label === 'edit')
+      .event.subscribe((chef) => this.editDish(chef));
+
+    this.actions
+      .find((a) => a.label === 'delete')
+      .event.subscribe((chef) => this.deleteDish(chef._id));
   }
 
   openGenericModal(dish: IDish | null): void {
@@ -104,6 +98,17 @@ export class DishesTableComponent implements OnInit {
         next: () => this.refreshTable(),
         error: (err) => console.error(err),
       });
+    }
+  }
+
+  handleAction(action: string, dish: IDish): void {
+    switch (action) {
+      case 'edit':
+        this.editDish(dish);
+        break;
+      case 'delete':
+        this.deleteDish(dish._id);
+        break;
     }
   }
 

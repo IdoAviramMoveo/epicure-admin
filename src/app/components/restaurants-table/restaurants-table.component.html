@@ -1,7 +1,6 @@
 <app-generic-table
   [columns]="columns"
   [data]="data"
-  (edit)="editRestaurant($event)"
-  (delete)="deleteRestaurant($event)"
-  (addNew)="addRestaurant()"
+  [actions]="actions"
+  (actionTriggered)="handleAction($event.action, $event.item)"
 ></app-generic-table>

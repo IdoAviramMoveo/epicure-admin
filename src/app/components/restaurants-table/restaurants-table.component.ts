@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RestaurantService } from '../../services/restaurant.service';
 import { IRestaurant } from '../../models/restaurant.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
+import { TableAction } from '../generic-table/generic-table.component';
+import { restaurantColumns } from '../../data/table-columns';
 
 @Component({
   selector: 'app-restaurants-table',
@@ -13,43 +14,8 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './restaurants-table.component.scss',
 })
 export class RestaurantsTableComponent implements OnInit {
-  public columns: any[] = [
-    {
-      columnDef: 'title',
-      header: 'Title',
-      cell: (element: IRestaurant) => element.title,
-    },
-    {
-      columnDef: 'image',
-      header: 'Image',
-      cell: (element: IRestaurant) => element.image,
-    },
-    {
-      columnDef: 'chef',
-      header: 'Chef',
-      cell: (element: IRestaurant) => element.chef.title,
-    },
-    {
-      columnDef: 'dishes',
-      header: 'Dishes',
-      cell: (element: IRestaurant) =>
-        element.dishes.map((dish) => dish.title).join(', '),
-    },
-    {
-      columnDef: 'rating',
-      header: 'Rating',
-      cell: (element: IRestaurant) => element.rating.toString(),
-    },
-    {
-      columnDef: 'isPopular',
-      header: 'Is Popular',
-      cell: (element: IRestaurant) => (element.isPopular ? 'Yes' : 'No'),
-    },
-    {
-      columnDef: 'actions',
-      header: 'Actions',
-    },
-  ];
+  public columns: any[] = restaurantColumns;
+  public actions: TableAction[];
   public data: IRestaurant[] = [];
 
   constructor(
@@ -60,6 +26,32 @@ export class RestaurantsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshTable();
+    this.setupActions();
+  }
+
+  setupActions(): void {
+    this.actions = [
+      {
+        label: 'edit',
+        icon: 'edit',
+        color: 'primary',
+        event: new EventEmitter<IRestaurant>(),
+      },
+      {
+        label: 'delete',
+        icon: 'delete',
+        color: 'warn',
+        event: new EventEmitter<IRestaurant>(),
+      },
+    ];
+
+    this.actions
+      .find((a) => a.label === 'edit')
+      .event.subscribe((chef) => this.editRestaurant(chef));
+
+    this.actions
+      .find((a) => a.label === 'delete')
+      .event.subscribe((chef) => this.deleteRestaurant(chef._id));
   }
 
   openGenericModal(restaurant: IRestaurant | null): void {
@@ -110,6 +102,17 @@ export class RestaurantsTableComponent implements OnInit {
         next: () => this.refreshTable(),
         error: (err) => console.error(err),
       });
+    }
+  }
+
+  handleAction(action: string, restaurant: IRestaurant): void {
+    switch (action) {
+      case 'edit':
+        this.editRestaurant(restaurant);
+        break;
+      case 'delete':
+        this.deleteRestaurant(restaurant._id);
+        break;
     }
   }
 

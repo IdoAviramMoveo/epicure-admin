@@ -3,7 +3,7 @@
     mat-raised-button
     color="primary"
     class="add-button"
-    (click)="onAddNew()"
+    (click)="actionTriggered.emit({ action: 'addNew' })"
   >
     Add New
     <mat-icon>add</mat-icon>
@@ -18,19 +18,10 @@
         <th mat-header-cell *matHeaderCellDef class="text-container">
           {{ column.header }}
         </th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          [ngClass]="{
-            'text-container':
-              column.header !== 'Description' && column.header !== 'Ingredients'
-          }"
-        >
-          <ng-container *ngIf="column.cell && column.columnDef !== 'image'">
-            {{ column.cell(element) }}
-          </ng-container>
-
-          <ng-container *ngIf="column.columnDef === 'image'">
+        <td mat-cell *matCellDef="let element" class="text-container">
+          <ng-container
+            *ngIf="column.columnDef === 'image'; else defaultContent"
+          >
             <img
               *ngIf="element[column.columnDef]"
               [src]="element[column.columnDef]"
@@ -39,39 +30,30 @@
               width="70"
             />
           </ng-container>
+          <ng-template #defaultContent>
+            {{ column.cell(element) }}
+          </ng-template>
+        </td>
+      </ng-container>
 
-          <ng-container *ngIf="column.columnDef === 'actions'">
-            <div class="icons-container">
-              <button
-                *ngIf="isChefsTable"
-                mat-icon-button
-                (click)="setChefOfTheWeek.emit(element._id)"
-                color="accent"
-              >
-                <mat-icon class="yellow-star">star</mat-icon>
-              </button>
-              <button mat-icon-button (click)="onEdit(element)" color="primary">
-                <mat-icon>edit</mat-icon>
-              </button>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-container">
+          Actions
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="icons-container">
+            <ng-container *ngFor="let action of actions">
               <button
                 mat-icon-button
-                (click)="onDelete(element._id)"
-                color="warn"
+                (click)="onAction(action.label, element)"
+                [color]="action.color"
               >
-                <mat-icon>delete</mat-icon>
+                <mat-icon [ngClass]="action.class ? action.class : ''">{{
+                  action.icon
+                }}</mat-icon>
               </button>
-            </div>
-          </ng-container>
-
-          <ng-container
-            *ngIf="
-              !column.cell &&
-              column.columnDef !== 'image' &&
-              column.columnDef !== 'actions'
-            "
-          >
-            {{ element[column.columnDef] }}
-          </ng-container>
+            </ng-container>
+          </div>
         </td>
       </ng-container>
 

@@ -8,6 +8,14 @@ import {
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
+export interface TableAction {
+  label: string;
+  icon: string;
+  color: string;
+  class?: string;
+  event: EventEmitter<any>;
+}
+
 @Component({
   selector: 'app-generic-table',
   templateUrl: './generic-table.component.html',
@@ -16,21 +24,20 @@ import { MatTableDataSource } from '@angular/material/table';
 export class GenericTableComponent<T> implements OnInit {
   @Input() columns: any[];
   @Input() data: T[];
-  @Input() isChefsTable: boolean = false;
-  @Output() edit = new EventEmitter<T>();
-  @Output() delete = new EventEmitter<string>();
-  @Output() addNew = new EventEmitter<void>();
-  @Output() setChefOfTheWeek = new EventEmitter<any>();
+  @Input() actions: TableAction[];
+  @Output() actionTriggered = new EventEmitter<{ action: string; item: T }>();
 
   public displayedColumns: string[];
   public dataSource = new MatTableDataSource<T>([]);
 
   ngOnInit(): void {
-    this.displayedColumns = this.columns.map((c) => c.columnDef);
-
-    if (this.data) {
-      this.dataSource.data = this.data;
-    }
+    this.columns = this.columns.filter(
+      (column) => column.columnDef !== 'actions'
+    );
+    this.displayedColumns = this.columns
+      .map((c) => c.columnDef)
+      .concat('actions');
+    this.dataSource.data = this.data;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -39,15 +46,7 @@ export class GenericTableComponent<T> implements OnInit {
     }
   }
 
-  onEdit(item: T): void {
-    this.edit.emit(item);
-  }
-
-  onDelete(id: string): void {
-    this.delete.emit(id);
-  }
-
-  onAddNew(): void {
-    this.addNew.emit();
+  onAction(action: string, item: T): void {
+    this.actionTriggered.emit({ action, item });
   }
 }
