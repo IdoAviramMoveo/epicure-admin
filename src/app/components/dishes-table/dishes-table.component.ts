@@ -7,6 +7,7 @@ import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
 import { TableAction } from '../generic-table/generic-table.component';
 import { dishColumns } from '../../data/table-columns';
+import { getDishActions } from '../../data/table-actions';
 
 @Component({
   selector: 'app-dishes-table',
@@ -30,20 +31,7 @@ export class DishesTableComponent implements OnInit {
   }
 
   setupActions(): void {
-    this.actions = [
-      {
-        label: 'edit',
-        icon: 'edit',
-        color: 'primary',
-        event: new EventEmitter<IDish>(),
-      },
-      {
-        label: 'delete',
-        icon: 'delete',
-        color: 'warn',
-        event: new EventEmitter<IDish>(),
-      },
-    ];
+    this.actions = getDishActions();
 
     this.actions
       .find((a) => a.label === 'edit')
@@ -103,6 +91,9 @@ export class DishesTableComponent implements OnInit {
 
   handleAction(action: string, dish: IDish): void {
     switch (action) {
+      case 'addNew':
+        this.addDish();
+        break;
       case 'edit':
         this.editDish(dish);
         break;

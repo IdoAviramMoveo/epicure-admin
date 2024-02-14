@@ -7,6 +7,7 @@ import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
 import { TableAction } from '../generic-table/generic-table.component';
 import { chefColumns } from '../../data/table-columns';
+import { getChefActions } from '../../data/table-actions';
 
 @Component({
   selector: 'app-chefs-table',
@@ -30,27 +31,7 @@ export class ChefsTableComponent implements OnInit {
   }
 
   setupActions(): void {
-    this.actions = [
-      {
-        label: 'setChefOfTheWeek',
-        icon: 'star',
-        color: 'accent',
-        class: 'yellow-star',
-        event: new EventEmitter<IChef>(),
-      },
-      {
-        label: 'edit',
-        icon: 'edit',
-        color: 'primary',
-        event: new EventEmitter<IChef>(),
-      },
-      {
-        label: 'delete',
-        icon: 'delete',
-        color: 'warn',
-        event: new EventEmitter<IChef>(),
-      },
-    ];
+    this.actions = getChefActions();
 
     this.actions
       .find((a) => a.label === 'edit')
@@ -126,6 +107,9 @@ export class ChefsTableComponent implements OnInit {
 
   handleAction(action: string, chef: IChef): void {
     switch (action) {
+      case 'addNew':
+        this.addChef();
+        break;
       case 'setChefOfTheWeek':
         this.setChefOfTheWeek(chef._id);
         break;

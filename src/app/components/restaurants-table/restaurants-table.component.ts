@@ -7,6 +7,7 @@ import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
 import { TableAction } from '../generic-table/generic-table.component';
 import { restaurantColumns } from '../../data/table-columns';
+import { getRestaurantActions } from '../../data/table-actions';
 
 @Component({
   selector: 'app-restaurants-table',
@@ -30,20 +31,7 @@ export class RestaurantsTableComponent implements OnInit {
   }
 
   setupActions(): void {
-    this.actions = [
-      {
-        label: 'edit',
-        icon: 'edit',
-        color: 'primary',
-        event: new EventEmitter<IRestaurant>(),
-      },
-      {
-        label: 'delete',
-        icon: 'delete',
-        color: 'warn',
-        event: new EventEmitter<IRestaurant>(),
-      },
-    ];
+    this.actions = getRestaurantActions();
 
     this.actions
       .find((a) => a.label === 'edit')
@@ -107,6 +95,9 @@ export class RestaurantsTableComponent implements OnInit {
 
   handleAction(action: string, restaurant: IRestaurant): void {
     switch (action) {
+      case 'addNew':
+        this.addRestaurant();
+        break;
       case 'edit':
         this.editRestaurant(restaurant);
         break;
