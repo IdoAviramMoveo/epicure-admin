@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Edit Restaurant</h2>
+<div mat-dialog-content>
+  <form [formGroup]="editRestaurantForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" />
+      <mat-error *ngIf="editRestaurantForm.get('title').invalid"
+        >Title is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Image URL</mat-label>
+      <input matInput formControlName="image" />
+      <mat-error *ngIf="editRestaurantForm.get('image').invalid"
+        >Image URL is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Rating</mat-label>
+      <input matInput type="number" formControlName="rating" />
+      <mat-error *ngIf="editRestaurantForm.get('rating').invalid"
+        >Valid rating is required</mat-error
+      >
+    </mat-form-field>
+
+    <mat-checkbox formControlName="isPopular">Popular</mat-checkbox>
+
+    <div mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="false">Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!editRestaurantForm.valid"
+        type="submit"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
