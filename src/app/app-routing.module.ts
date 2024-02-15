@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'dishes', component: DishesTableComponent, canActivate: [AuthGuard] },
   { path: 'chefs', component: ChefsTableComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/restaurants', pathMatch: 'full' },
+  { path: '**', redirectTo: '/restaurants' },
 ];
 
 @NgModule({

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -24,5 +25,23 @@ export class AuthService {
 
   logout(): void {
     sessionStorage.removeItem('token');
+  }
+
+  verifyToken(): Observable<boolean> {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      return of(false);
+    }
+
+    return this.http
+      .get<any>(`${this.baseUrl}/verify-token`, {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${token}`,
+        }),
+      })
+      .pipe(
+        map((response) => true),
+        catchError(() => of(false))
+      );
   }
 }
