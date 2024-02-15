@@ -1,3 +1,5 @@
+@import "../../styles/mixins";
+
 .table-container {
   width: 90%;
   position: absolute;
@@ -18,6 +20,7 @@
   }
 
   .text-container {
+    @include font-style;
     text-align: center;
   }
 

@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -20,6 +21,7 @@ import { DishesTableComponent } from './components/dishes-table/dishes-table.com
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { GenericModalComponent } from './components/generic-modal/generic-modal.component';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import { GenericTableComponent } from './components/generic-table/generic-table.
     NavBarComponent,
     GenericModalComponent,
     GenericTableComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +40,7 @@ import { GenericTableComponent } from './components/generic-table/generic-table.
     HttpClientModule,
     MatTableModule,
     ReactiveFormsModule,
+    FormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,

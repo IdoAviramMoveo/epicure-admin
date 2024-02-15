@@ -1,0 +1,21 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.cdk-global-overlay-wrapper {
+  align-items: center !important;
+
+  .mdc-button__label {
+    color: white !important;
+    background-color: #ff5a5a !important;
+  }
+  --mdc-snackbar-container-color: #ff5a5a;
+}
