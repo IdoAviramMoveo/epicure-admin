@@ -6,7 +6,8 @@
         *ngIf="
           controlName.key !== 'ingredients' &&
           controlName.key !== 'tags' &&
-          controlName.key !== 'chef'
+          controlName.key !== 'chef' &&
+          controlName.key !== 'restaurant'
         "
       >
         <ng-container
@@ -49,6 +50,20 @@
         <mat-select formControlName="chef">
           <mat-option *ngFor="let chef of chefs" [value]="chef._id">
             {{ chef.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="restaurants">
+      <mat-form-field appearance="fill">
+        <mat-label>Restaurant</mat-label>
+        <mat-select formControlName="restaurant">
+          <mat-option
+            *ngFor="let restaurant of restaurants"
+            [value]="restaurant._id"
+          >
+            {{ restaurant.title }}
           </mat-option>
         </mat-select>
       </mat-form-field>

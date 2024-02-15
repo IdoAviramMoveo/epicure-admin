@@ -1,7 +1,9 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DishService } from '../../services/dish.service';
+import { RestaurantService } from '../../services/restaurant.service';
 import { IDish } from '../../models/dish.model';
+import { IRestaurant } from '../../models/restaurant.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
@@ -18,16 +20,19 @@ export class DishesTableComponent implements OnInit {
   public columns: any[] = dishColumns;
   public actions: TableAction[];
   public data: IDish[] = [];
+  public restaurants: IRestaurant[] = [];
 
   constructor(
     private dishService: DishService,
     public dialog: MatDialog,
-    private formService: FormService
+    private formService: FormService,
+    private restaurantService: RestaurantService
   ) {}
 
   ngOnInit(): void {
     this.refreshTable();
     this.setupActions();
+    this.loadRestaurants();
   }
 
   setupActions(): void {
@@ -45,31 +50,36 @@ export class DishesTableComponent implements OnInit {
   openGenericModal(dish: IDish | null): void {
     const isEditOperation = !!dish;
     const modalTitle = isEditOperation ? 'Edit Dish' : 'Add Dish';
-    const formGroup = this.formService.initDishForm(dish || undefined);
 
-    const dialogRef = this.dialog.open(GenericModalComponent, {
-      width: '300px',
-      data: { formGroup, modalTitle, isDishForm: true },
-    });
+    this.restaurantService
+      .getAllRestaurantsWithDishes()
+      .subscribe((restaurants: IRestaurant[]) => {
+        const formGroup = this.formService.initDishForm(dish || undefined);
 
-    dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
-      const formValue = form.getRawValue();
-      if (isEditOperation && dish) {
-        this.dishService.updateDish(dish._id, formValue).subscribe({
-          next: () => this.refreshTable(),
-          error: (err) => console.error(err),
+        const dialogRef = this.dialog.open(GenericModalComponent, {
+          width: '300px',
+          data: { formGroup, modalTitle, isDishForm: true, restaurants },
         });
-      } else {
-        this.dishService.addDish(formValue).subscribe({
-          next: () => this.refreshTable(),
-          error: (err) => console.error(err),
-        });
-      }
-    });
 
-    dialogRef.afterClosed().subscribe(() => {
-      dialogRef.componentInstance.submitForm.unsubscribe();
-    });
+        dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
+          const formValue = form.getRawValue();
+          if (isEditOperation && dish) {
+            this.dishService.updateDish(dish._id, formValue).subscribe({
+              next: () => this.refreshTable(),
+              error: (err) => console.error(err),
+            });
+          } else {
+            this.dishService.addDish(formValue).subscribe({
+              next: () => this.refreshTable(),
+              error: (err) => console.error(err),
+            });
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+          dialogRef.componentInstance.submitForm.unsubscribe();
+        });
+      });
   }
 
   addDish(): void {
@@ -112,5 +122,13 @@ export class DishesTableComponent implements OnInit {
         console.error(err);
       },
     });
+  }
+
+  loadRestaurants(): void {
+    this.restaurantService
+      .getAllRestaurantsWithDishes()
+      .subscribe((restaurants: IRestaurant[]) => {
+        this.restaurants = restaurants;
+      });
   }
 }

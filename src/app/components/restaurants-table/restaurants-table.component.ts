@@ -52,8 +52,7 @@ export class RestaurantsTableComponent implements OnInit {
     const modalTitle = isEditOperation ? 'Edit Restaurant' : 'Add Restaurant';
     this.chefService.getAllChefs().subscribe((chefs: IChef[]) => {
       const formGroup = this.formService.initRestaurantForm(
-        restaurant || undefined,
-        chefs
+        restaurant || undefined
       );
 
       const dialogRef = this.dialog.open(GenericModalComponent, {

@@ -1,4 +1,11 @@
-import { Component, Inject, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  Output,
+  EventEmitter,
+  input,
+} from '@angular/core';
 import {
   FormGroup,
   FormArray,
@@ -8,6 +15,7 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IChef } from '../../models/chef.model';
+import { IRestaurant } from '../../models/restaurant.model';
 
 @Component({
   selector: 'app-generic-modal',
@@ -21,6 +29,7 @@ export class GenericModalComponent {
   @Input() dropdownOptions: any = { tags: ['Spicy', 'Vegan', 'Vegi'] };
   @Input() isDishForm: boolean = false;
   @Input() chefs: IChef[];
+  @Input() restaurants: IChef[];
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +47,9 @@ export class GenericModalComponent {
     }
     if (data && data.chefs) {
       this.chefs = data.chefs;
+    }
+    if (data && data.restaurants) {
+      this.restaurants = data.restaurants;
     }
   }
 

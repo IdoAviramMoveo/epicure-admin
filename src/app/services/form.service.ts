@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
-import { IChef } from '../models/chef.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +7,7 @@ import { IChef } from '../models/chef.model';
 export class FormService {
   constructor(private fb: FormBuilder) {}
 
-  initRestaurantForm(restaurantData = null, chefs: IChef[] = []) {
+  initRestaurantForm(restaurantData = null) {
     let chefId = '';
     if (
       restaurantData &&
@@ -23,7 +22,10 @@ export class FormService {
     return this.fb.group({
       title: [restaurantData ? restaurantData.title : '', Validators.required],
       image: [restaurantData ? restaurantData.image : '', Validators.required],
-      chef: [chefId, Validators.required],
+      chef: [
+        restaurantData && restaurantData.chef ? restaurantData.chef._id : '',
+        Validators.required,
+      ],
       rating: [
         restaurantData ? restaurantData.rating : '',
         [Validators.required, Validators.min(1), Validators.max(5)],
