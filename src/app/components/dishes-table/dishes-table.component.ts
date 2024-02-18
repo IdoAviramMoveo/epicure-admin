@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DishService } from '../../services/dish.service';
 import { RestaurantService } from '../../services/restaurant.service';
@@ -7,7 +7,7 @@ import { IRestaurant } from '../../models/restaurant.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
-import { TableAction } from '../generic-table/generic-table.component';
+import { TableAction } from '../../data/table-actions';
 import { dishColumns } from '../../data/table-columns';
 import { getDishActions } from '../../data/table-actions';
 

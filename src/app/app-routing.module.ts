@@ -6,6 +6,7 @@ import { DishesTableComponent } from './components/dishes-table/dishes-table.com
 import { ChefsTableComponent } from './components/chefs-table/chefs-table.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { UsersTableComponent } from './components/users-table/users-table.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,6 +17,11 @@ const routes: Routes = [
   },
   { path: 'dishes', component: DishesTableComponent, canActivate: [AuthGuard] },
   { path: 'chefs', component: ChefsTableComponent, canActivate: [AuthGuard] },
+  {
+    path: 'users',
+    component: UsersTableComponent,
+    canActivate: [AuthGuard],
+  },
   { path: '', redirectTo: '/restaurants', pathMatch: 'full' },
   { path: '**', redirectTo: '/restaurants' },
 ];

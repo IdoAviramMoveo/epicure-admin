@@ -5,7 +5,7 @@ import { IChef } from '../../models/chef.model';
 import { GenericModalComponent } from '../generic-modal/generic-modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
-import { TableAction } from '../generic-table/generic-table.component';
+import { TableAction } from '../../data/table-actions';
 import { chefColumns } from '../../data/table-columns';
 import { getChefActions } from '../../data/table-actions';
 

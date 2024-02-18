@@ -1,6 +1,7 @@
 import { IRestaurant } from '../models/restaurant.model';
 import { IDish } from '../models/dish.model';
 import { IChef } from '../models/chef.model';
+import { IUser } from '../models/user.model';
 
 export const dishColumns: any[] = [
   {
@@ -103,6 +104,33 @@ export const chefColumns: any[] = [
     columnDef: 'isChefOfTheWeek',
     header: 'Is Chef Of The Week',
     cell: (element: IChef) => (element.isChefOfTheWeek ? 'Yes' : 'No'),
+  },
+  {
+    columnDef: 'actions',
+    header: 'Actions',
+  },
+];
+
+export const userColumns: any[] = [
+  {
+    columnDef: 'name',
+    header: 'Name',
+    cell: (element: IUser) => element.name,
+  },
+  {
+    columnDef: 'surname',
+    header: 'Surname',
+    cell: (element: IUser) => element.surname,
+  },
+  {
+    columnDef: 'email',
+    header: 'Email',
+    cell: (element: IUser) => element.email,
+  },
+  {
+    columnDef: 'role',
+    header: 'Role',
+    cell: (element: IUser) => element.role,
   },
   {
     columnDef: 'actions',

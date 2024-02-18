@@ -7,14 +7,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-
-export interface TableAction {
-  label: string;
-  icon: string;
-  color: string;
-  class?: string;
-  event: EventEmitter<any>;
-}
+import { ActivatedRoute, Router } from '@angular/router';
+import { TableAction } from '../../data/table-actions';
 
 @Component({
   selector: 'app-generic-table',
@@ -29,6 +23,9 @@ export class GenericTableComponent<T> implements OnInit {
 
   public displayedColumns: string[];
   public dataSource = new MatTableDataSource<T>([]);
+  showAddNewButton: boolean = true;
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.columns = this.columns.filter(
@@ -38,6 +35,10 @@ export class GenericTableComponent<T> implements OnInit {
       .map((c) => c.columnDef)
       .concat('actions');
     this.dataSource.data = this.data;
+
+    this.router.events.subscribe(() => {
+      this.showAddNewButton = !this.router.url.includes('/users');
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

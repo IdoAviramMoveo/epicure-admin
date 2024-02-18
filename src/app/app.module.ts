@@ -22,6 +22,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { GenericModalComponent } from './components/generic-modal/generic-modal.component';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
 import { LoginComponent } from './components/login/login.component';
+import { UsersTableComponent } from './components/users-table/users-table.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LoginComponent } from './components/login/login.component';
     GenericModalComponent,
     GenericTableComponent,
     LoginComponent,
+    UsersTableComponent,
   ],
   imports: [
     BrowserModule,

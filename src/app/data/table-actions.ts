@@ -1,10 +1,12 @@
 import { EventEmitter } from '@angular/core';
+import { IUser } from '../models/user.model';
 
 export interface TableAction {
   label: string;
   icon: string;
   color: string;
   class?: string;
+  shouldShow?: (item: any) => boolean;
   event: EventEmitter<any>;
 }
 
@@ -52,4 +54,16 @@ export const getChefActions = (): TableAction[] => {
     event: new EventEmitter<any>(),
   });
   return actions;
+};
+
+export const getUserActions = (): TableAction[] => {
+  return [
+    {
+      label: 'delete',
+      icon: 'delete',
+      color: 'warn',
+      shouldShow: (user: IUser) => user.role === 'USER',
+      event: new EventEmitter<any>(),
+    },
+  ];
 };

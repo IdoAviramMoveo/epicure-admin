@@ -1,0 +1,6 @@
+<app-generic-table
+  [columns]="columns"
+  [data]="data"
+  [actions]="actions"
+  (actionTriggered)="handleAction($event.action, $event.item)"
+></app-generic-table>

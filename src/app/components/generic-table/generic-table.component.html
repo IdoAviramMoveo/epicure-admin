@@ -1,6 +1,7 @@
 <div class="table-container">
   <button
     mat-raised-button
+    *ngIf="showAddNewButton"
     color="primary"
     class="add-button"
     (click)="actionTriggered.emit({ action: 'addNew' })"
@@ -44,8 +45,9 @@
           <div class="icons-container">
             <ng-container *ngFor="let action of actions">
               <button
+                *ngIf="!action.shouldShow || action.shouldShow(element)"
                 mat-icon-button
-                (click)="onAction(action.label, element)"
+                (click)="action.event.emit(element)"
                 [color]="action.color"
               >
                 <mat-icon [ngClass]="action.class ? action.class : ''">{{
