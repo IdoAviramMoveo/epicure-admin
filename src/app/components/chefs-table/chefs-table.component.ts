@@ -18,6 +18,7 @@ export class ChefsTableComponent implements OnInit {
   public columns: any[] = chefColumns;
   public actions: TableAction[];
   public data: IChef[] = [];
+  isLoadingData: boolean = true;
 
   constructor(
     private chefService: ChefService,
@@ -123,12 +124,15 @@ export class ChefsTableComponent implements OnInit {
   }
 
   refreshTable(): void {
+    this.isLoadingData = true;
     this.chefService.getAllChefs().subscribe({
       next: (data) => {
         this.data = data;
+        this.isLoadingData = false;
       },
       error: (err) => {
         console.error(err);
+        this.isLoadingData = false;
       },
     });
   }

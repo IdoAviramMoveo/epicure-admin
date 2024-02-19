@@ -19,6 +19,7 @@ export class GenericTableComponent<T> implements OnInit {
   @Input() columns: any[];
   @Input() data: T[];
   @Input() actions: TableAction[];
+  @Input() isLoading: boolean = false;
   @Output() actionTriggered = new EventEmitter<{ action: string; item: T }>();
 
   public displayedColumns: string[];

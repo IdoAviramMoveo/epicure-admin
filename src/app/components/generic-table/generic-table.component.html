@@ -1,4 +1,8 @@
-<div class="table-container">
+<div *ngIf="isLoading" class="loading-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!isLoading" class="table-container">
   <button
     mat-raised-button
     *ngIf="showAddNewButton"

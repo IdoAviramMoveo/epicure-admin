@@ -14,6 +14,7 @@ export class UsersTableComponent implements OnInit {
   public columns: any[] = userColumns;
   public actions: TableAction[];
   public data: IUser[] = [];
+  isLoadingData: boolean = true;
 
   constructor(private userService: UserService) {}
 
@@ -48,12 +49,15 @@ export class UsersTableComponent implements OnInit {
   }
 
   refreshTable(): void {
+    this.isLoadingData = true;
     this.userService.getAllUsers().subscribe({
       next: (data) => {
         this.data = data;
+        this.isLoadingData = false;
       },
       error: (err) => {
         console.error(err);
+        this.isLoadingData = false;
       },
     });
   }

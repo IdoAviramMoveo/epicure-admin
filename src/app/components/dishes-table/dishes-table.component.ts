@@ -21,6 +21,7 @@ export class DishesTableComponent implements OnInit {
   public actions: TableAction[];
   public data: IDish[] = [];
   public restaurants: IRestaurant[] = [];
+  isLoadingData: boolean = true;
 
   constructor(
     private dishService: DishService,
@@ -114,12 +115,15 @@ export class DishesTableComponent implements OnInit {
   }
 
   refreshTable(): void {
+    this.isLoadingData = true;
     this.dishService.getAllDishes().subscribe({
       next: (data) => {
         this.data = data;
+        this.isLoadingData = false;
       },
       error: (err) => {
         console.error(err);
+        this.isLoadingData = false;
       },
     });
   }
