@@ -117,7 +117,6 @@ export class GenericModalComponent {
 
   onSubmit() {
     if (this.selectedFile) {
-      console.log(this.selectedFile);
       let folder = 'Chefs';
       if (this.isDishForm) {
         folder = 'Dishes';
