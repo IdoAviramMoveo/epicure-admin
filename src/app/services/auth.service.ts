@@ -8,12 +8,12 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl: string = environment.baseUrl + '/users';
+  private baseUrl: string = `${environment.baseUrl}/admin/users`;
 
   constructor(private http: HttpClient) {}
 
   adminLogin(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/admin/login`, {
+    return this.http.post<any>(`${this.baseUrl}/login`, {
       email,
       password,
     });

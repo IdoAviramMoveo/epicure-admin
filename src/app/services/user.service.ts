@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl: string = environment.baseUrl + '/users';
+  private baseUrl: string = environment.baseUrl + '/admin/users';
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +18,7 @@ export class UserService {
   }
 
   getAllUsers(): Observable<IUser[]> {
-    return this.http.get<IUser[]>(this.baseUrl);
+    return this.http.get<IUser[]>(this.baseUrl, { headers: this.getHeaders() });
   }
 
   deleteUser(id: string): Observable<any> {

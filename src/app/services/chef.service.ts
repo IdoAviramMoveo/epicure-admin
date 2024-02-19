@@ -8,7 +8,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class ChefService {
-  private baseUrl: string = environment.baseUrl + '/chefs';
+  private apiUrl: string = environment.baseUrl + '/api/chefs';
+  private adminUrl: string = environment.baseUrl + '/admin/chefs';
 
   constructor(private http: HttpClient) {}
 
@@ -18,30 +19,30 @@ export class ChefService {
   }
 
   getAllChefs(): Observable<IChef[]> {
-    return this.http.get<IChef[]>(this.baseUrl);
+    return this.http.get<IChef[]>(this.apiUrl);
   }
 
   addChef(chefData: IChef): Observable<IChef> {
-    return this.http.post<IChef>(this.baseUrl, chefData, {
+    return this.http.post<IChef>(this.adminUrl, chefData, {
       headers: this.getHeaders(),
     });
   }
 
   updateChef(id: string, chefData: IChef): Observable<IChef> {
-    return this.http.put<IChef>(`${this.baseUrl}/${id}`, chefData, {
+    return this.http.put<IChef>(`${this.adminUrl}/${id}`, chefData, {
       headers: this.getHeaders(),
     });
   }
 
   deleteChef(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, {
+    return this.http.delete(`${this.adminUrl}/${id}`, {
       headers: this.getHeaders(),
     });
   }
 
   setChefOfTheWeek(chefId: string): Observable<any> {
     return this.http.put(
-      `${this.baseUrl}/set-chef-of-the-week/${chefId}`,
+      `${this.adminUrl}/set-chef-of-the-week/${chefId}`,
       {},
       { headers: this.getHeaders() }
     );

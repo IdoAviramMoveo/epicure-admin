@@ -8,7 +8,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class RestaurantService {
-  private baseUrl: string = environment.baseUrl + '/restaurants';
+  private apiUrl: string = environment.baseUrl + '/api/restaurants';
+  private adminUrl: string = environment.baseUrl + '/admin/restaurants';
 
   constructor(private http: HttpClient) {}
 
@@ -18,15 +19,15 @@ export class RestaurantService {
   }
 
   getAllRestaurants(): Observable<IRestaurant[]> {
-    return this.http.get<IRestaurant[]>(this.baseUrl);
+    return this.http.get<IRestaurant[]>(this.apiUrl);
   }
 
   getAllRestaurantsWithDishes(): Observable<IRestaurant[]> {
-    return this.http.get<IRestaurant[]>(`${this.baseUrl}/with-dishes`);
+    return this.http.get<IRestaurant[]>(`${this.apiUrl}/with-dishes`);
   }
 
   addRestaurant(restaurantData: IRestaurant): Observable<IRestaurant> {
-    return this.http.post<IRestaurant>(this.baseUrl, restaurantData, {
+    return this.http.post<IRestaurant>(this.adminUrl, restaurantData, {
       headers: this.getHeaders(),
     });
   }
@@ -35,13 +36,17 @@ export class RestaurantService {
     id: string,
     restaurantData: IRestaurant
   ): Observable<IRestaurant> {
-    return this.http.put<IRestaurant>(`${this.baseUrl}/${id}`, restaurantData, {
-      headers: this.getHeaders(),
-    });
+    return this.http.put<IRestaurant>(
+      `${this.adminUrl}/${id}`,
+      restaurantData,
+      {
+        headers: this.getHeaders(),
+      }
+    );
   }
 
   deleteRestaurant(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, {
+    return this.http.delete(`${this.adminUrl}/${id}`, {
       headers: this.getHeaders(),
     });
   }

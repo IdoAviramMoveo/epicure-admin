@@ -8,7 +8,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class DishService {
-  private baseUrl: string = environment.baseUrl + '/dishes';
+  private apiUrl: string = environment.baseUrl + '/api/dishes';
+  private adminUrl: string = environment.baseUrl + '/admin/dishes';
 
   constructor(private http: HttpClient) {}
 
@@ -18,23 +19,23 @@ export class DishService {
   }
 
   getAllDishes(): Observable<IDish[]> {
-    return this.http.get<IDish[]>(this.baseUrl);
+    return this.http.get<IDish[]>(this.apiUrl);
   }
 
   addDish(dishData: IDish): Observable<IDish> {
-    return this.http.post<IDish>(this.baseUrl, dishData, {
+    return this.http.post<IDish>(this.adminUrl, dishData, {
       headers: this.getHeaders(),
     });
   }
 
   updateDish(id: string, dishData: IDish): Observable<IDish> {
-    return this.http.put<IDish>(`${this.baseUrl}/${id}`, dishData, {
+    return this.http.put<IDish>(`${this.adminUrl}/${id}`, dishData, {
       headers: this.getHeaders(),
     });
   }
 
   deleteDish(id: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, {
+    return this.http.delete(`${this.adminUrl}/${id}`, {
       headers: this.getHeaders(),
     });
   }
