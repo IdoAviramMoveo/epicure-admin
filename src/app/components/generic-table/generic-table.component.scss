@@ -22,6 +22,14 @@
   .text-container {
     @include font-style;
     text-align: center;
+    overflow-y: auto;
+    max-height: 60px;
+    max-width: 400px;
+    word-wrap: break-word;
+
+    .long-text {
+      text-align: left;
+    }
   }
 
   .add-button {
@@ -59,6 +67,7 @@
 
   td {
     padding: 3px 16px;
+    max-width: 400px;
   }
 
   ul {

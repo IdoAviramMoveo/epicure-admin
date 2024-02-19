@@ -50,4 +50,8 @@ export class GenericTableComponent<T> implements OnInit {
   onAction(action: string, item: T): void {
     this.actionTriggered.emit({ action, item });
   }
+
+  isTextLong(columnDef: string): boolean {
+    return ['ingredients', 'description'].includes(columnDef);
+  }
 }
