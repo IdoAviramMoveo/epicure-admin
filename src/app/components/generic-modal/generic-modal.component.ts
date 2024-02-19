@@ -128,7 +128,6 @@ export class GenericModalComponent {
         .uploadFile(this.selectedFile, folder)
         .then((url) => {
           this.formGroup.get('image').setValue(url);
-
           this.emitForm();
         })
         .catch((error) => {
