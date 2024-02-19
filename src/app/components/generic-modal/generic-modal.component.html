@@ -7,7 +7,8 @@
           controlName.key !== 'ingredients' &&
           controlName.key !== 'tags' &&
           controlName.key !== 'chef' &&
-          controlName.key !== 'restaurant'
+          controlName.key !== 'restaurant' &&
+          controlName.key !== 'image'
         "
       >
         <ng-container
@@ -31,6 +32,26 @@
           </mat-form-field>
         </ng-template>
       </ng-container>
+    </div>
+
+    <div *ngIf="formGroup.get('image')">
+      <input
+        type="file"
+        id="image"
+        (change)="onFileSelected($event)"
+        hidden
+        #fileInput
+      />
+      <mat-form-field appearance="fill">
+        <mat-label>Image</mat-label>
+        <input
+          matInput
+          [value]="selectedFileName"
+          readonly
+          placeholder="Select an image"
+        />
+        <mat-icon matSuffix (click)="fileInput.click()">file_upload</mat-icon>
+      </mat-form-field>
     </div>
 
     <div *ngIf="isDishForm">
