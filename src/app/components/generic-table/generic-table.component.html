@@ -3,16 +3,31 @@
 </div>
 
 <div *ngIf="!isLoading" class="table-container">
-  <button
-    mat-raised-button
-    *ngIf="showAddNewButton"
-    color="primary"
-    class="add-button"
-    (click)="actionTriggered.emit({ action: 'addNew' })"
-  >
-    Add New
-    <mat-icon>add</mat-icon>
-  </button>
+  <div class="button-and-filter-container">
+    <button
+      mat-raised-button
+      *ngIf="showAddNewButton"
+      color="primary"
+      class="add-button"
+      (click)="actionTriggered.emit({ action: 'addNew' })"
+    >
+      Add New
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <div class="filter-container">
+      <mat-form-field appearance="outline">
+        <mat-label>{{
+          dataType === "user" ? "Filter by Name or Surname" : "Filter by Title"
+        }}</mat-label>
+        <input
+          matInput
+          (input)="applyFilter($event)"
+          placeholder="Type to filter..."
+        />
+      </mat-form-field>
+    </div>
+  </div>
 
   <div class="scrollable-table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

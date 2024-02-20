@@ -20,6 +20,7 @@ export class GenericTableComponent<T> implements OnInit {
   @Input() data: T[];
   @Input() actions: TableAction[];
   @Input() isLoading: boolean = false;
+  @Input() dataType: 'user' | 'other';
   @Output() actionTriggered = new EventEmitter<{ action: string; item: T }>();
 
   public displayedColumns: string[];
@@ -40,6 +41,24 @@ export class GenericTableComponent<T> implements OnInit {
     this.router.events.subscribe(() => {
       this.showAddNewButton = !this.router.url.includes('/users');
     });
+
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      let searchString = filter.toLowerCase();
+
+      if (this.dataType === 'user') {
+        return (
+          data.name?.toLowerCase().startsWith(searchString) ||
+          data.surname?.toLowerCase().startsWith(searchString)
+        );
+      } else {
+        const titleWords = data.title?.toLowerCase().split(' ');
+        const firstLetters = titleWords?.map((word) => word[0]).join('');
+        return (
+          titleWords?.some((word) => word.startsWith(searchString)) ||
+          firstLetters.startsWith(searchString)
+        );
+      }
+    };
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,6 +69,11 @@ export class GenericTableComponent<T> implements OnInit {
 
   onAction(action: string, item: T): void {
     this.actionTriggered.emit({ action, item });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   isTextLong(columnDef: string): boolean {

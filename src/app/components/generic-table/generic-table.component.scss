@@ -20,11 +20,26 @@
   transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+
+  .button-and-filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .filter-container {
+      mat-form-field {
+        width: 33%;
+      }
+    }
+
+    .add-button {
+      border: 1px solid black;
+      width: max-content;
+    }
+  }
 
   .scrollable-table-container {
     display: block;
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 300px);
     overflow-y: auto;
     border: 2px solid black;
     border-radius: 10px;
@@ -40,11 +55,6 @@
     .long-text {
       text-align: left;
     }
-  }
-
-  .add-button {
-    border: 1px solid black;
-    width: max-content;
   }
 
   .image-container {
