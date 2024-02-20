@@ -10,6 +10,7 @@
   right: 0;
   bottom: 0;
 }
+
 .table-container {
   width: 90%;
   position: absolute;
@@ -70,7 +71,14 @@
     background-color: rgb(238, 242, 255);
   }
 
+  tr {
+    &:hover {
+      background-color: rgb(200, 211, 245);
+    }
+  }
+
   th {
+    background-color: rgb(200, 211, 245);
     border-bottom: 1px solid black;
   }
 
