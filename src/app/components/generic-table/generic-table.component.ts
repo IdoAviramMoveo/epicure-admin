@@ -73,12 +73,21 @@ export class GenericTableComponent<T> implements OnInit {
     this.actionTriggered.emit({ action, item });
   }
 
-  openImageDialog(imgSrc: string): void {
+  openImageDialog(element: any, columnDef: string): void {
+    const imgSrc = element[columnDef];
+    let description = '';
+    if (this.dataType === 'user') {
+      description = `${element.name} ${element.surname}`;
+    } else {
+      description = element.title;
+    }
+
     this.dialog.open(ImageDialogComponent, {
-      data: { imgSrc },
+      data: { imgSrc, description },
       width: '30%',
       height: 'auto',
       maxWidth: '80vw',
+      panelClass: 'custom-dialog-container',
     });
   }
 
