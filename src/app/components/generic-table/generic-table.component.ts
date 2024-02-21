@@ -38,10 +38,6 @@ export class GenericTableComponent<T> implements OnInit {
       .concat('actions');
     this.dataSource.data = this.data;
 
-    this.router.events.subscribe(() => {
-      this.showAddNewButton = !this.router.url.includes('/users');
-    });
-
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       let searchString = filter.toLowerCase();
 

@@ -8,7 +8,8 @@
           controlName.key !== 'tags' &&
           controlName.key !== 'chef' &&
           controlName.key !== 'restaurant' &&
-          controlName.key !== 'image'
+          controlName.key !== 'image' &&
+          controlName.key !== 'role'
         "
       >
         <ng-container
@@ -55,18 +56,29 @@
       </mat-form-field>
     </div>
 
-    <div *ngIf="isDishForm">
+    <div *ngIf="formGroup.get('tags')">
       <mat-form-field appearance="fill">
         <mat-label>Tags</mat-label>
         <mat-select formControlName="tags">
-          <mat-option value="Spicy">Spicy</mat-option>
-          <mat-option value="Vegan">Vegan</mat-option>
-          <mat-option value="Vegi">Vegi</mat-option>
+          <mat-option *ngFor="let tag of tagsOptions" [value]="tag">{{
+            tag
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
-    <ng-container *ngIf="chefs">
+    <div *ngIf="formGroup.get('role')">
+      <mat-form-field appearance="fill">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let role of roleOptions" [value]="role">
+            {{ role }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <ng-container *ngIf="formGroup.get('chef')">
       <mat-form-field appearance="fill">
         <mat-label>Chef</mat-label>
         <mat-select formControlName="chef">
@@ -77,7 +89,7 @@
       </mat-form-field>
     </ng-container>
 
-    <ng-container *ngIf="restaurants">
+    <ng-container *ngIf="formGroup.get('restaurant')">
       <mat-form-field appearance="fill">
         <mat-label>Restaurant</mat-label>
         <mat-select formControlName="restaurant">
@@ -91,7 +103,7 @@
       </mat-form-field>
     </ng-container>
 
-    <div *ngIf="isDishForm" formArrayName="ingredients">
+    <div *ngIf="formGroup.get('ingredients')" formArrayName="ingredients">
       <label>Ingredients:</label>
       <div *ngFor="let ingredientCtrl of ingredients.controls; let i = index">
         <mat-form-field appearance="fill">

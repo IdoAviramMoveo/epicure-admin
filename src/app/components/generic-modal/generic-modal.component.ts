@@ -16,7 +16,6 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 import { S3Service } from '../../services/s3.service';
 import { IChef } from '../../models/chef.model';
 
@@ -29,10 +28,12 @@ export class GenericModalComponent {
   @Input() modalTitle: string;
   @Input() formGroup: FormGroup;
   @Output() submitForm = new EventEmitter<FormGroup>();
-  @Input() dropdownOptions: any = { tags: ['Spicy', 'Vegan', 'Vegi'] };
   @Input() isDishForm: boolean = false;
   @Input() chefs: IChef[];
   @Input() restaurants: IChef[];
+
+  roleOptions: string[] = ['USER', 'ADMIN'];
+  tagsOptions: string[] = ['Spicy', 'Vegan', 'Vegi'];
 
   selectedFile: File | null = null;
   selectedFileName = '';
@@ -95,8 +96,8 @@ export class GenericModalComponent {
       );
   }
 
-  isDropdownControl(controlName: string): boolean {
-    return Object.keys(this.dropdownOptions).includes(controlName);
+  isTagsControl(controlName: string): boolean {
+    return Object.keys(this.tagsOptions).includes(controlName);
   }
 
   get ingredients(): FormArray {

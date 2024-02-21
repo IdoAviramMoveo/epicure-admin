@@ -1,9 +1,14 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { IUser } from '../../models/user.model';
 import { userColumns } from '../../data/table-columns';
 import { getUserActions } from '../../data/table-actions';
 import { TableAction } from '../../data/table-actions';
+
+import { GenericModalComponent } from '../generic-modal/generic-modal.component';
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'app-users-table',
@@ -16,7 +21,11 @@ export class UsersTableComponent implements OnInit {
   public data: IUser[] = [];
   isLoadingData: boolean = true;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    public dialog: MatDialog,
+    private userService: UserService,
+    private formService: FormService
+  ) {}
 
   ngOnInit(): void {
     this.refreshTable();
@@ -31,6 +40,28 @@ export class UsersTableComponent implements OnInit {
       .event.subscribe((user) => this.deleteUser(user._id));
   }
 
+  addUser(): void {
+    const formGroup = this.formService.initUserForm();
+    const modalTitle = 'Add User';
+
+    const dialogRef = this.dialog.open(GenericModalComponent, {
+      width: '300px',
+      data: { formGroup, modalTitle },
+    });
+
+    dialogRef.componentInstance.submitForm.subscribe((form: FormGroup) => {
+      const formValue = form.getRawValue();
+      this.userService.saveUser(formValue).subscribe({
+        next: () => this.refreshTable(),
+        error: (err) => console.error('Error creating user:', err),
+      });
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      dialogRef.componentInstance.submitForm.unsubscribe();
+    });
+  }
+
   deleteUser(id: string): void {
     if (confirm('Are you sure to delete this user?')) {
       this.userService.deleteUser(id).subscribe({
@@ -42,6 +73,9 @@ export class UsersTableComponent implements OnInit {
 
   handleAction(action: string, user: IUser): void {
     switch (action) {
+      case 'addNew':
+        this.addUser();
+        break;
       case 'delete':
         this.deleteUser(user._id);
         break;

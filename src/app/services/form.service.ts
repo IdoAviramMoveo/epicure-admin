@@ -63,6 +63,16 @@ export class FormService {
     });
   }
 
+  initUserForm(userData = null) {
+    return this.fb.group({
+      name: [userData ? userData.name : '', Validators.required],
+      surname: [userData ? userData.surname : '', Validators.required],
+      email: [userData ? userData.email : '', Validators.required],
+      password: [userData ? userData.password : '', Validators.required],
+      role: [userData ? userData.role : '', Validators.required],
+    });
+  }
+
   addIngredient(ingredients: FormArray) {
     ingredients.push(this.fb.control('', Validators.required));
   }
