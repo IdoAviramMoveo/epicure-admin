@@ -69,7 +69,7 @@ export class FormService {
       surname: [userData ? userData.surname : '', Validators.required],
       email: [userData ? userData.email : '', Validators.required],
       password: [userData ? userData.password : '', Validators.required],
-      role: [userData ? userData.role : '', Validators.required],
+      role: [userData ? userData.role : 'USER', Validators.required],
     });
   }
 

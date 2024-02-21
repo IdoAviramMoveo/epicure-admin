@@ -7,8 +7,10 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableAction } from '../../data/table-actions';
+import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 
 @Component({
   selector: 'app-generic-table',
@@ -27,7 +29,11 @@ export class GenericTableComponent<T> implements OnInit {
   public dataSource = new MatTableDataSource<T>([]);
   showAddNewButton: boolean = true;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.columns = this.columns.filter(
@@ -65,6 +71,15 @@ export class GenericTableComponent<T> implements OnInit {
 
   onAction(action: string, item: T): void {
     this.actionTriggered.emit({ action, item });
+  }
+
+  openImageDialog(imgSrc: string): void {
+    this.dialog.open(ImageDialogComponent, {
+      data: { imgSrc },
+      width: '30%',
+      height: 'auto',
+      maxWidth: '80vw',
+    });
   }
 
   applyFilter(event: Event) {

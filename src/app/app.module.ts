@@ -24,6 +24,7 @@ import { GenericModalComponent } from './components/generic-modal/generic-modal.
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
 import { LoginComponent } from './components/login/login.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
+import { ImageDialogComponent } from './components/image-dialog/image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
     GenericTableComponent,
     LoginComponent,
     UsersTableComponent,
+    ImageDialogComponent,
   ],
   imports: [
     BrowserModule,
