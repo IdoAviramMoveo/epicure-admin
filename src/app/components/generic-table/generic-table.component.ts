@@ -75,12 +75,7 @@ export class GenericTableComponent<T> implements OnInit {
 
   openImageDialog(element: any, columnDef: string): void {
     const imgSrc = element[columnDef];
-    let description = '';
-    if (this.dataType === 'user') {
-      description = `${element.name} ${element.surname}`;
-    } else {
-      description = element.title;
-    }
+    const description = element.title;
 
     this.dialog.open(ImageDialogComponent, {
       data: { imgSrc, description },
