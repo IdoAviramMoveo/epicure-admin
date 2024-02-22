@@ -1,0 +1,131 @@
+<h2 mat-dialog-title>{{ modalTitle }}</h2>
+<div mat-dialog-content>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div *ngFor="let controlName of formGroup.controls | keyvalue : keepOrder">
+      <ng-container
+        *ngIf="
+          controlName.key !== 'ingredients' &&
+          controlName.key !== 'tags' &&
+          controlName.key !== 'chef' &&
+          controlName.key !== 'restaurant' &&
+          controlName.key !== 'image' &&
+          controlName.key !== 'role'
+        "
+      >
+        <ng-container
+          *ngIf="
+            isBooleanControl(formGroup.get(controlName.key));
+            else otherControls
+          "
+        >
+          <mat-checkbox [formControlName]="controlName.key">{{
+            formatLabel(controlName.key)
+          }}</mat-checkbox>
+        </ng-container>
+
+        <ng-template #otherControls>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
+            <input matInput [formControlName]="controlName.key" required />
+            <mat-error *ngIf="formGroup.get(controlName.key).errors?.required">
+              {{ formatLabel(controlName.key) }} is required
+            </mat-error>
+          </mat-form-field>
+        </ng-template>
+      </ng-container>
+    </div>
+
+    <div *ngIf="formGroup.get('image')">
+      <input
+        type="file"
+        id="image"
+        (change)="onFileSelected($event)"
+        hidden
+        accept="image/*"
+        #fileInput
+      />
+      <mat-form-field appearance="fill">
+        <mat-label>Image</mat-label>
+        <input
+          matInput
+          [value]="selectedFileName"
+          readonly
+          placeholder="Select an image"
+        />
+        <mat-icon matSuffix (click)="fileInput.click()">file_upload</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="formGroup.get('tags')">
+      <mat-form-field appearance="fill">
+        <mat-label>Tags</mat-label>
+        <mat-select formControlName="tags">
+          <mat-option *ngFor="let tag of tagsOptions" [value]="tag">{{
+            tag
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="formGroup.get('role')">
+      <mat-form-field appearance="fill">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let role of roleOptions" [value]="role">
+            {{ role }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <ng-container *ngIf="formGroup.get('chef')">
+      <mat-form-field appearance="fill">
+        <mat-label>Chef</mat-label>
+        <mat-select formControlName="chef">
+          <mat-option *ngFor="let chef of chefs" [value]="chef._id">
+            {{ chef.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="formGroup.get('restaurant')">
+      <mat-form-field appearance="fill">
+        <mat-label>Restaurant</mat-label>
+        <mat-select formControlName="restaurant">
+          <mat-option
+            *ngFor="let restaurant of restaurants"
+            [value]="restaurant._id"
+          >
+            {{ restaurant.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+    <div *ngIf="formGroup.get('ingredients')" formArrayName="ingredients">
+      <label>Ingredients:</label>
+      <div *ngFor="let ingredientCtrl of ingredients.controls; let i = index">
+        <mat-form-field appearance="fill">
+          <input matInput [formControlName]="i" placeholder="Ingredient" />
+          <mat-icon matSuffix (click)="removeIngredient(i)"
+            >remove_circle</mat-icon
+          >
+          <mat-error *ngIf="ingredientCtrl.errors?.required">
+            Ingredient is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <button mat-button type="button" (click)="addIngredient()">
+        Add Ingredient
+      </button>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button type="button" mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

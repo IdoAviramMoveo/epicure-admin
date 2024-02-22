@@ -1,0 +1,28 @@
+<nav [ngClass]="isLoggedIn() ? 'header' : 'header-unauth'">
+  <img
+    class="app-logo"
+    src="../../../assets/images/epicureLogo.png"
+    alt="Epicure Logo"
+  />
+
+  <div *ngIf="isLoggedIn()" class="navbar-links">
+    <a
+      routerLink="/restaurants"
+      routerLinkActive="active-link"
+      class="small-link"
+      >Restaurants</a
+    >
+    <a routerLink="/dishes" routerLinkActive="active-link" class="small-link"
+      >Dishes</a
+    >
+    <a routerLink="/chefs" routerLinkActive="active-link" class="small-link"
+      >Chefs</a
+    >
+    <a routerLink="/users" routerLinkActive="active-link" class="small-link"
+      >Users</a
+    >
+    <button mat-icon-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</nav>

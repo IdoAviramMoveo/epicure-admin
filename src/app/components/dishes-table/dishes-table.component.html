@@ -1,1 +1,8 @@
-<p>dishes-table works!</p>
+<app-generic-table
+  [columns]="columns"
+  [data]="data"
+  [actions]="actions"
+  [isLoading]="isLoadingData"
+  [dataType]="'other'"
+  (actionTriggered)="handleAction($event.action, $event.item)"
+></app-generic-table>
