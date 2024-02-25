@@ -51,7 +51,7 @@ export class FormService {
         Validators.required,
       ],
       price: [dishData ? dishData.price : '', Validators.required],
-      tags: [dishData ? dishData.tags[0] : '', Validators.required],
+      tags: [dishData ? dishData.tags : []],
       ingredients: this.fb.array(
         dishData && dishData.ingredients
           ? dishData.ingredients.map((ingredient) =>

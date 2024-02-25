@@ -59,10 +59,10 @@
     <div *ngIf="formGroup.get('tags')">
       <mat-form-field appearance="fill">
         <mat-label>Tags</mat-label>
-        <mat-select formControlName="tags">
-          <mat-option *ngFor="let tag of tagsOptions" [value]="tag">{{
-            tag
-          }}</mat-option>
+        <mat-select formControlName="tags" multiple>
+          <mat-option *ngFor="let tag of tagsOptions" [value]="tag">
+            {{ tag }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
