@@ -35,6 +35,11 @@
     .add-button {
       border: 1px solid black;
       width: max-content;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
     }
   }
 

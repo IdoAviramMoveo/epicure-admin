@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -54,6 +55,7 @@ import { ImageDialogComponent } from './components/image-dialog/image-dialog.com
     MatIconModule,
     MatSelectModule,
     MatProgressSpinnerModule,
+    BrowserAnimationsModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

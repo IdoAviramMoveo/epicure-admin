@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,15 +13,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
-  greeting: string;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {
-    this.greeting = this.getGreeting();
-  }
+  ) {}
 
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
@@ -44,12 +41,5 @@ export class LoginComponent implements OnInit {
         });
       },
     });
-  }
-
-  private getGreeting(): string {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good Morning, Admin';
-    if (hour < 18) return 'Good Afternoon, Admin';
-    return 'Good Evening, Admin';
   }
 }
