@@ -7,6 +7,30 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: linear-gradient(
+      to right,
+      rgb(200, 211, 245),
+      rgb(216, 223, 251)
+    );
+    padding: 15px;
+    border-radius: 5px;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animated-title {
+    animation: fadeIn 2s ease-out;
+    font-size: 24px;
+    margin-bottom: 20px;
   }
 }
 

@@ -1,9 +1,11 @@
 <nav [ngClass]="isLoggedIn() ? 'header' : 'header-unauth'">
-  <img
-    class="app-logo"
-    src="assets/images/epicureLogo.png"
-    alt="Epicure Logo"
-  />
+  <div class="logo">
+    <img
+      class="app-logo"
+      src="assets/images/epicureLogo.png"
+      alt="Epicure Logo"
+    />
+  </div>
 
   <div *ngIf="isLoggedIn()" class="navbar-links">
     <a

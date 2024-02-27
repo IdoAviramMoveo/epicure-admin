@@ -36,7 +36,7 @@
         [matColumnDef]="column.columnDef"
       >
         <th mat-header-cell *matHeaderCellDef>
-          <div class="text-container">
+          <div class="text-container-header">
             {{ column.header }}
           </div>
         </th>
@@ -69,7 +69,7 @@
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>
-          <div class="text-container">Actions</div>
+          <div class="text-container-header">Actions</div>
         </th>
         <td mat-cell *matCellDef="let element">
           <div class="icons-container">

@@ -46,7 +46,7 @@ export const getRestaurantActions = (): TableAction[] => {
 
 export const getChefActions = (): TableAction[] => {
   let actions = getDishActions();
-  actions.push({
+  actions.unshift({
     label: 'setChefOfTheWeek',
     icon: 'star',
     color: 'accent',

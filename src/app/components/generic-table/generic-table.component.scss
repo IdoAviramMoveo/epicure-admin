@@ -58,6 +58,16 @@
     }
   }
 
+  .text-container-header {
+    @include font-style;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 60px;
+    max-width: 400px;
+    word-wrap: break-word;
+    font-weight: 500;
+  }
+
   .image-container {
     display: flex;
     justify-content: center;
@@ -93,6 +103,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
+
     &:after {
       content: "";
       position: absolute;
