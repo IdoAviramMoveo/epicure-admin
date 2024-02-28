@@ -25,6 +25,7 @@
           (input)="applyFilter($event)"
           placeholder="Type to filter..."
         />
+        <mat-icon matPrefix>search</mat-icon>
       </mat-form-field>
     </div>
   </div>
@@ -77,7 +78,7 @@
               <button
                 *ngIf="!action.shouldShow || action.shouldShow(element)"
                 mat-icon-button
-                (click)="action.event.emit(element)"
+                (click)="onActionClick(action, element)"
                 [color]="action.color"
               >
                 <mat-icon [ngClass]="action.class ? action.class : ''">{{

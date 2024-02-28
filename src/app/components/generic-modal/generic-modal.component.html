@@ -26,7 +26,19 @@
         <ng-template #otherControls>
           <mat-form-field appearance="fill">
             <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
-            <input matInput [formControlName]="controlName.key" required />
+            <ng-container
+              *ngIf="controlName.key === 'description'; else normalInput"
+            >
+              <textarea
+                matInput
+                [formControlName]="controlName.key"
+                class="mat-textarea"
+                required
+              ></textarea>
+            </ng-container>
+            <ng-template #normalInput>
+              <input matInput [formControlName]="controlName.key" required />
+            </ng-template>
             <mat-error *ngIf="formGroup.get(controlName.key).errors?.required">
               {{ formatLabel(controlName.key) }} is required
             </mat-error>
