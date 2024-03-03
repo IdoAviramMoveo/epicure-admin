@@ -1,9 +1,10 @@
+@import "variables";
+
 @mixin font-style {
   font-family: "Helvetica Neue";
   color: black;
   line-height: normal;
   font-weight: 350;
   font-style: normal;
-
   font-size: 16px;
 }

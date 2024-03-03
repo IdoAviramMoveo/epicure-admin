@@ -1,3 +1,5 @@
+@import "../../styles/mixins";
+
 .login-container {
   display: flex;
   flex-direction: column;
@@ -7,9 +9,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(238, 242, 255);
+    background-color: $color-background-primary;
     padding: 15px;
     border-radius: 5px;
+
+    mat-form-field {
+      width: 300px;
+
+      .error-icon {
+        color: $color-error;
+        min-width: 24px;
+      }
+    }
   }
 
   .login-button {
@@ -29,4 +40,13 @@
     background-color: #ff5a5a !important;
   }
   --mdc-snackbar-container-color: #ff5a5a;
+}
+
+.mdc-tooltip.custom-tooltip {
+  .mdc-tooltip__surface {
+    @include font-style;
+    background-color: $color-error;
+    color: white;
+    padding: 5px 10px;
+  }
 }

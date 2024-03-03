@@ -1,10 +1,12 @@
+@import "../../styles/mixins";
+
 .header-unauth {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 100px;
   height: 64px;
-  background-color: rgb(238, 242, 255);
+  background-color: $color-background-primary;
   border-bottom: 1px solid black;
   margin-bottom: 50px;
 
@@ -20,7 +22,7 @@
   justify-content: space-between;
   padding: 0 100px;
   height: 64px;
-  background-color: rgb(238, 242, 255);
+  background-color: $color-background-primary;
   border-bottom: 1px solid black;
   margin-bottom: 50px;
 
@@ -41,12 +43,12 @@
       color: black;
       padding: 10px;
       &:hover {
-        color: #555;
-        background-color: rgb(200, 211, 245);
+        color: $color-hover;
+        background-color: $color-background-hover;
         border-radius: 10px;
       }
       &.active-link {
-        background-color: rgb(200, 211, 245);
+        background-color: $color-background-hover;
         border-radius: 10px;
         font-weight: bold;
       }

@@ -1,21 +1,30 @@
 <div class="login-container">
-  <form (ngSubmit)="onSubmit()" class="form-container">
-    <mat-form-field appearance="fill">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-container">
+    <mat-form-field appearance="fill" [class.error-field]="emailInvalid">
       <mat-label>Email</mat-label>
       <mat-icon matPrefix>person_outline</mat-icon>
-      <input matInput [(ngModel)]="email" name="email" type="email" required />
+      <input
+        matInput
+        formControlName="email"
+        type="email"
+        required
+        (blur)="emailBlurHandler()"
+      />
+      <mat-icon
+        *ngIf="emailInvalid"
+        matSuffix
+        class="error-icon"
+        [matTooltip]="emailInvalid ? 'Invalid email format' : ''"
+        matTooltipClass="custom-tooltip"
+        matTooltipPosition="above"
+        >error_outline</mat-icon
+      >
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
       <mat-icon matPrefix>lock_outline</mat-icon>
-      <input
-        matInput
-        [(ngModel)]="password"
-        name="password"
-        type="password"
-        required
-      />
+      <input matInput formControlName="password" type="password" required />
     </mat-form-field>
 
     <button
@@ -23,6 +32,7 @@
       color="primary"
       type="submit"
       class="login-button"
+      [disabled]="loginForm.invalid"
     >
       <mat-icon>login</mat-icon> Login
     </button>
