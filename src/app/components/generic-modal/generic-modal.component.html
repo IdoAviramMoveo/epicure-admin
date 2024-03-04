@@ -177,8 +177,12 @@
       </mat-form-field>
     </ng-container>
 
-    <div *ngIf="formGroup.get('ingredients')" formArrayName="ingredients">
-      <label>Ingredients: </label>
+    <div
+      *ngIf="formGroup.get('ingredients')"
+      formArrayName="ingredients"
+      class="ingredients-container"
+    >
+      <label class="ingredients-title">Ingredients: </label>
       <div *ngFor="let ingredientCtrl of ingredients.controls; let i = index">
         <mat-form-field appearance="fill">
           <input matInput [formControlName]="i" placeholder="Ingredient" />
@@ -200,10 +204,18 @@
       </button>
     </div>
 
-    <div mat-dialog-actions class="diaglog-actions">
-      <button mat-button type="button" mat-dialog-close>Cancel</button>
-      <button mat-raised-button color="primary" [disabled]="!formGroup.valid">
-        Save
+    <div mat-dialog-actions class="dialog-actions">
+      <button mat-icon-button mat-dialog-close aria-label="Close dialog">
+        <mat-icon class="icon">close</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [disabled]="!formGroup.valid"
+        aria-label="Save data"
+      >
+        <mat-icon class="icon save-icon" [class.active]="formGroup.valid"
+          >check</mat-icon
+        >
       </button>
     </div>
   </form>
