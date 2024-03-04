@@ -12,7 +12,8 @@
           controlName.key !== 'restaurant' &&
           controlName.key !== 'image' &&
           controlName.key !== 'role' &&
-          controlName.key !== 'description'
+          controlName.key !== 'description' &&
+          controlName.key !== 'rating'
         "
       >
         <mat-checkbox
@@ -32,6 +33,15 @@
         </ng-container>
       </ng-container>
     </ng-container>
+
+    <mat-form-field appearance="fill" *ngIf="formGroup.get('rating')">
+      <mat-label>Rating</mat-label>
+      <mat-select formControlName="rating">
+        <mat-option *ngFor="let number of [1, 2, 3, 4, 5]" [value]="number">
+          {{ number }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <div *ngIf="formGroup.get('image')">
       <input

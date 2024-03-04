@@ -26,10 +26,7 @@ export class FormService {
         restaurantData && restaurantData.chef ? restaurantData.chef._id : '',
         Validators.required,
       ],
-      rating: [
-        restaurantData ? restaurantData.rating : '',
-        [Validators.required, Validators.min(1), Validators.max(5)],
-      ],
+      rating: [restaurantData ? restaurantData.rating : 1, Validators.required],
       isPopular: [restaurantData ? restaurantData.isPopular : false],
     });
   }
