@@ -1,7 +1,9 @@
-<h2 mat-dialog-title>{{ modalTitle }}</h2>
+<!-- <h2 mat-dialog-title class="dialog-title">{{ modalTitle }}</h2>
 <div mat-dialog-content>
-  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-    <div *ngFor="let controlName of formGroup.controls | keyvalue : keepOrder">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid">
+    <ng-container
+      *ngFor="let controlName of formGroup.controls | keyvalue : keepOrder"
+    >
       <ng-container
         *ngIf="
           controlName.key !== 'ingredients' &&
@@ -37,7 +39,12 @@
               ></textarea>
             </ng-container>
             <ng-template #normalInput>
-              <input matInput [formControlName]="controlName.key" required />
+              <input
+                matInput
+                class="mat-input"
+                [formControlName]="controlName.key"
+                required
+              />
             </ng-template>
             <mat-error *ngIf="formGroup.get(controlName.key).errors?.required">
               {{ formatLabel(controlName.key) }} is required
@@ -45,7 +52,62 @@
           </mat-form-field>
         </ng-template>
       </ng-container>
-    </div>
+    </ng-container> -->
+
+<h2 mat-dialog-title class="dialog-title">{{ modalTitle }}</h2>
+<div mat-dialog-content>
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid">
+    <!-- Iterating over controls -->
+    <ng-container
+      *ngFor="let controlName of formGroup.controls | keyvalue : keepOrder"
+    >
+      <ng-container
+        *ngIf="
+          controlName.key !== 'ingredients' &&
+          controlName.key !== 'tags' &&
+          controlName.key !== 'chef' &&
+          controlName.key !== 'restaurant' &&
+          controlName.key !== 'image' &&
+          controlName.key !== 'role'
+        "
+      >
+        <!-- Boolean controls -->
+        <mat-checkbox
+          *ngIf="isBooleanControl(formGroup.get(controlName.key))"
+          [formControlName]="controlName.key"
+        >
+          {{ formatLabel(controlName.key) }}
+        </mat-checkbox>
+        <!-- Other controls -->
+        <ng-container *ngIf="!isBooleanControl(formGroup.get(controlName.key))">
+          <mat-form-field
+            appearance="fill"
+            *ngIf="controlName.key !== 'description'"
+          >
+            <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
+            <input matInput [formControlName]="controlName.key" required />
+            <mat-error *ngIf="formGroup.get(controlName.key).errors?.required">
+              {{ formatLabel(controlName.key) }} is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field
+            appearance="fill"
+            *ngIf="controlName.key === 'description'"
+          >
+            <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
+            <textarea
+              matInput
+              [formControlName]="controlName.key"
+              class="mat-textarea"
+              required
+            ></textarea>
+            <mat-error *ngIf="formGroup.get(controlName.key).errors?.required">
+              {{ formatLabel(controlName.key) }} is required
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
+    </ng-container>
 
     <div *ngIf="formGroup.get('image')">
       <input
@@ -116,7 +178,7 @@
     </ng-container>
 
     <div *ngIf="formGroup.get('ingredients')" formArrayName="ingredients">
-      <label>Ingredients:</label>
+      <label>Ingredients: </label>
       <div *ngFor="let ingredientCtrl of ingredients.controls; let i = index">
         <mat-form-field appearance="fill">
           <input matInput [formControlName]="i" placeholder="Ingredient" />
@@ -128,12 +190,17 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <button mat-button type="button" (click)="addIngredient()">
+      <button
+        mat-button
+        type="button"
+        (click)="addIngredient()"
+        class="add-ingredient-button"
+      >
         Add Ingredient
       </button>
     </div>
 
-    <div mat-dialog-actions>
+    <div mat-dialog-actions class="diaglog-actions">
       <button mat-button type="button" mat-dialog-close>Cancel</button>
       <button mat-raised-button color="primary" [disabled]="!formGroup.valid">
         Save

@@ -1,3 +1,40 @@
+@import "../../styles/mixins";
+
+.dialog-title {
+  @include font-style;
+  text-align: center;
+  font-weight: 400;
+  font-size: 24px;
+}
+
 .mat-textarea {
   min-height: 100px;
+}
+
+.add-ingredient-button {
+  background-color: #e0e0e0;
+  color: #424242;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #bdbdbd;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+mat-form-field,
+.mat-checkbox,
+.add-ingredient-button {
+  width: 100%;
+  max-width: 300px;
 }

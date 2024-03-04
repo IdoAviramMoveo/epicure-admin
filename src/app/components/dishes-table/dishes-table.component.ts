@@ -58,7 +58,7 @@ export class DishesTableComponent implements OnInit {
         const formGroup = this.formService.initDishForm(dish || undefined);
 
         const dialogRef = this.dialog.open(GenericModalComponent, {
-          width: '300px',
+          width: '700px',
           data: { formGroup, modalTitle, isDishForm: true, restaurants },
         });
 

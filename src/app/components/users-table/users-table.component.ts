@@ -45,7 +45,7 @@ export class UsersTableComponent implements OnInit {
     const modalTitle = 'Add User';
 
     const dialogRef = this.dialog.open(GenericModalComponent, {
-      width: '300px',
+      width: '700px',
       data: { formGroup, modalTitle },
     });
 

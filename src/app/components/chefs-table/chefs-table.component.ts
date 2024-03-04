@@ -53,7 +53,7 @@ export class ChefsTableComponent implements OnInit {
     const formGroup = this.formService.initChefForm(chef || undefined);
 
     const dialogRef = this.dialog.open(GenericModalComponent, {
-      width: '300px',
+      width: '700px',
       data: { formGroup, modalTitle },
     });
 

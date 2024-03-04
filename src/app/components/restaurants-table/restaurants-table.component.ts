@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RestaurantService } from '../../services/restaurant.service';
 import { ChefService } from '../../services/chef.service';
@@ -57,7 +57,7 @@ export class RestaurantsTableComponent implements OnInit {
       );
 
       const dialogRef = this.dialog.open(GenericModalComponent, {
-        width: '300px',
+        width: '700px',
         data: { formGroup, modalTitle, chefs },
       });
 
