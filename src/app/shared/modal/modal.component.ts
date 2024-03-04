@@ -20,11 +20,11 @@ import { S3Service } from '../../services/s3.service';
 import { IChef } from '../../models/chef.model';
 
 @Component({
-  selector: 'app-generic-modal',
-  templateUrl: './generic-modal.component.html',
-  styleUrl: './generic-modal.component.scss',
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
+  styleUrl: './modal.component.scss',
 })
-export class GenericModalComponent {
+export class ModalComponent {
   @Input() modalTitle: string;
   @Input() formGroup: FormGroup;
   @Output() submitForm = new EventEmitter<FormGroup>();
@@ -41,7 +41,7 @@ export class GenericModalComponent {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<GenericModalComponent>,
+    private dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private s3Service: S3Service,
     private changeDetectorRef: ChangeDetectorRef

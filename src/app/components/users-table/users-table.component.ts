@@ -7,7 +7,7 @@ import { userColumns } from '../../data/table-columns';
 import { getUserActions } from '../../data/table-actions';
 import { TableAction } from '../../data/table-actions';
 
-import { GenericModalComponent } from '../generic-modal/generic-modal.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 import { FormService } from '../../services/form.service';
 
 @Component({
@@ -44,7 +44,7 @@ export class UsersTableComponent implements OnInit {
     const formGroup = this.formService.initUserForm();
     const modalTitle = 'Add User';
 
-    const dialogRef = this.dialog.open(GenericModalComponent, {
+    const dialogRef = this.dialog.open(ModalComponent, {
       width: '700px',
       data: { formGroup, modalTitle },
     });

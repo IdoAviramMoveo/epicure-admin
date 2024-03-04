@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChefService } from '../../services/chef.service';
 import { IChef } from '../../models/chef.model';
-import { GenericModalComponent } from '../generic-modal/generic-modal.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
 import { TableAction } from '../../data/table-actions';
@@ -52,7 +52,7 @@ export class ChefsTableComponent implements OnInit {
     const modalTitle = isEditOperation ? 'Edit Chef' : 'Add Chef';
     const formGroup = this.formService.initChefForm(chef || undefined);
 
-    const dialogRef = this.dialog.open(GenericModalComponent, {
+    const dialogRef = this.dialog.open(ModalComponent, {
       width: '700px',
       data: { formGroup, modalTitle },
     });

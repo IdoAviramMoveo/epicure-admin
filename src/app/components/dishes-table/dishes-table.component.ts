@@ -4,7 +4,7 @@ import { DishService } from '../../services/dish.service';
 import { RestaurantService } from '../../services/restaurant.service';
 import { IDish } from '../../models/dish.model';
 import { IRestaurant } from '../../models/restaurant.model';
-import { GenericModalComponent } from '../generic-modal/generic-modal.component';
+import { ModalComponent } from '../../shared/modal/modal.component';
 import { FormService } from '../../services/form.service';
 import { FormGroup } from '@angular/forms';
 import { TableAction } from '../../data/table-actions';
@@ -57,7 +57,7 @@ export class DishesTableComponent implements OnInit {
       .subscribe((restaurants: IRestaurant[]) => {
         const formGroup = this.formService.initDishForm(dish || undefined);
 
-        const dialogRef = this.dialog.open(GenericModalComponent, {
+        const dialogRef = this.dialog.open(ModalComponent, {
           width: '700px',
           data: { formGroup, modalTitle, isDishForm: true, restaurants },
         });

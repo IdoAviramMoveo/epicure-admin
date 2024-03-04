@@ -12,11 +12,11 @@ import { TableAction } from '../../data/table-actions';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 
 @Component({
-  selector: 'app-generic-table',
-  templateUrl: './generic-table.component.html',
-  styleUrl: './generic-table.component.scss',
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrl: './table.component.scss',
 })
-export class GenericTableComponent<T> implements OnInit {
+export class TableComponent<T> implements OnInit {
   @Input() columns: any[];
   @Input() data: T[];
   @Input() actions: TableAction[];

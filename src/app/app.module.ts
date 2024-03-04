@@ -21,12 +21,12 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { RestaurantsTableComponent } from './components/restaurants-table/restaurants-table.component';
 import { ChefsTableComponent } from './components/chefs-table/chefs-table.component';
 import { DishesTableComponent } from './components/dishes-table/dishes-table.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { GenericModalComponent } from './components/generic-modal/generic-modal.component';
-import { GenericTableComponent } from './components/generic-table/generic-table.component';
+import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
+import { ModalComponent } from './shared/modal/modal.component';
+import { TableComponent } from './shared/table/table.component';
 import { LoginComponent } from './components/login/login.component';
 import { UsersTableComponent } from './components/users-table/users-table.component';
-import { ImageDialogComponent } from './components/image-dialog/image-dialog.component';
+import { ImageDialogComponent } from './shared/image-dialog/image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +35,8 @@ import { ImageDialogComponent } from './components/image-dialog/image-dialog.com
     ChefsTableComponent,
     DishesTableComponent,
     NavBarComponent,
-    GenericModalComponent,
-    GenericTableComponent,
+    ModalComponent,
+    TableComponent,
     LoginComponent,
     UsersTableComponent,
     ImageDialogComponent,
