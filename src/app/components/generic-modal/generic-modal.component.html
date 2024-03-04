@@ -1,63 +1,6 @@
-<!-- <h2 mat-dialog-title class="dialog-title">{{ modalTitle }}</h2>
-<div mat-dialog-content>
-  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid">
-    <ng-container
-      *ngFor="let controlName of formGroup.controls | keyvalue : keepOrder"
-    >
-      <ng-container
-        *ngIf="
-          controlName.key !== 'ingredients' &&
-          controlName.key !== 'tags' &&
-          controlName.key !== 'chef' &&
-          controlName.key !== 'restaurant' &&
-          controlName.key !== 'image' &&
-          controlName.key !== 'role'
-        "
-      >
-        <ng-container
-          *ngIf="
-            isBooleanControl(formGroup.get(controlName.key));
-            else otherControls
-          "
-        >
-          <mat-checkbox [formControlName]="controlName.key">{{
-            formatLabel(controlName.key)
-          }}</mat-checkbox>
-        </ng-container>
-
-        <ng-template #otherControls>
-          <mat-form-field appearance="fill">
-            <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
-            <ng-container
-              *ngIf="controlName.key === 'description'; else normalInput"
-            >
-              <textarea
-                matInput
-                [formControlName]="controlName.key"
-                class="mat-textarea"
-                required
-              ></textarea>
-            </ng-container>
-            <ng-template #normalInput>
-              <input
-                matInput
-                class="mat-input"
-                [formControlName]="controlName.key"
-                required
-              />
-            </ng-template>
-            <mat-error *ngIf="formGroup.get(controlName.key).errors?.required">
-              {{ formatLabel(controlName.key) }} is required
-            </mat-error>
-          </mat-form-field>
-        </ng-template>
-      </ng-container>
-    </ng-container> -->
-
 <h2 mat-dialog-title class="dialog-title">{{ modalTitle }}</h2>
 <div mat-dialog-content>
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="form-grid">
-    <!-- Iterating over controls -->
     <ng-container
       *ngFor="let controlName of formGroup.controls | keyvalue : keepOrder"
     >
@@ -68,39 +11,20 @@
           controlName.key !== 'chef' &&
           controlName.key !== 'restaurant' &&
           controlName.key !== 'image' &&
-          controlName.key !== 'role'
+          controlName.key !== 'role' &&
+          controlName.key !== 'description'
         "
       >
-        <!-- Boolean controls -->
         <mat-checkbox
           *ngIf="isBooleanControl(formGroup.get(controlName.key))"
           [formControlName]="controlName.key"
         >
           {{ formatLabel(controlName.key) }}
         </mat-checkbox>
-        <!-- Other controls -->
         <ng-container *ngIf="!isBooleanControl(formGroup.get(controlName.key))">
-          <mat-form-field
-            appearance="fill"
-            *ngIf="controlName.key !== 'description'"
-          >
+          <mat-form-field appearance="fill">
             <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
             <input matInput [formControlName]="controlName.key" required />
-            <mat-error *ngIf="formGroup.get(controlName.key).errors?.required">
-              {{ formatLabel(controlName.key) }} is required
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field
-            appearance="fill"
-            *ngIf="controlName.key === 'description'"
-          >
-            <mat-label>{{ formatLabel(controlName.key) }}</mat-label>
-            <textarea
-              matInput
-              [formControlName]="controlName.key"
-              class="mat-textarea"
-              required
-            ></textarea>
             <mat-error *ngIf="formGroup.get(controlName.key).errors?.required">
               {{ formatLabel(controlName.key) }} is required
             </mat-error>
@@ -129,6 +53,19 @@
         <mat-icon matSuffix (click)="fileInput.click()">file_upload</mat-icon>
       </mat-form-field>
     </div>
+
+    <mat-form-field appearance="fill" *ngIf="formGroup.get('description')">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        [formControlName]="'description'"
+        class="mat-textarea"
+        required
+      ></textarea>
+      <mat-error *ngIf="formGroup.get('description').errors?.required">
+        Description is required
+      </mat-error>
+    </mat-form-field>
 
     <div *ngIf="formGroup.get('tags')">
       <mat-form-field appearance="fill">
@@ -182,7 +119,23 @@
       formArrayName="ingredients"
       class="ingredients-container"
     >
-      <label class="ingredients-title">Ingredients: </label>
+      <div class="title-and-add-container">
+        <mat-panel-title class="ingredients-title">
+          Ingredients
+          <span class="ingredient-count"
+            >({{ ingredients.controls.length }})</span
+          >
+        </mat-panel-title>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="addIngredient()"
+          class="add-ingredient-button"
+          aria-label="Add ingredient"
+        >
+          <mat-icon class="add-ingredient-icon">add</mat-icon>
+        </button>
+      </div>
       <div *ngFor="let ingredientCtrl of ingredients.controls; let i = index">
         <mat-form-field appearance="fill">
           <input matInput [formControlName]="i" placeholder="Ingredient" />
@@ -194,14 +147,6 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <button
-        mat-button
-        type="button"
-        (click)="addIngredient()"
-        class="add-ingredient-button"
-      >
-        Add Ingredient
-      </button>
     </div>
 
     <div mat-dialog-actions class="dialog-actions">
